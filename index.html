@@ -3,84 +3,165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LuxeStore - Direct Order</title>
+    <title>LuxeStore | Premium Experience</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;700&display=swap');
-        body { font-family: 'Hind Siliguri', sans-serif; }
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;600;700&family=Plus+Jakarta+Sans:wght@700&display=swap');
+        body { font-family: 'Hind Siliguri', sans-serif; background-color: #f8fafc; }
+        .font-logo { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .glass { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); }
+        .product-card:hover img { transform: scale(1.08); }
     </style>
 </head>
-<body class="bg-gray-50">
+<body class="text-slate-900 leading-relaxed">
 
-    <!-- Navbar -->
-    <nav class="bg-white border-b sticky top-0 z-50 p-4 shadow-sm">
+    <!-- Premium Navbar -->
+    <nav class="glass border-b border-slate-100 sticky top-0 z-[60] py-4 px-6 shadow-sm">
         <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-2xl font-bold text-indigo-600">LUXE STORE</h1>
-            <button onclick="openAdmin()" class="text-gray-400"><i class="fas fa-cog"></i></button>
+            <h1 class="text-2xl font-extrabold tracking-tighter font-logo text-indigo-600">LUXE<span class="text-slate-900">STORE</span></h1>
+            <div class="flex items-center gap-4">
+                <button onclick="openAdmin()" class="text-slate-400 hover:text-indigo-600 transition-colors"><i class="fas fa-gear text-xl"></i></button>
+            </div>
         </div>
     </nav>
 
-    <!-- Product Grid -->
-    <div class="container mx-auto px-4 py-8">
-        <div id="product-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
-    </div>
+    <!-- Hero Banner Section -->
+    <header class="bg-slate-900 py-12 px-6 text-center relative overflow-hidden">
+        <div class="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+        <div class="relative z-10 max-w-2xl mx-auto">
+            <span class="inline-block px-4 py-1 rounded-full bg-indigo-500/20 text-indigo-300 text-xs font-bold mb-4 tracking-widest uppercase">New Collection 2024</span>
+            <h1 class="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">আপনার স্টাইলকে করুন আরও <span class="text-indigo-400 italic">স্মার্ট</span></h1>
+            <p class="text-slate-400 mb-8 text-sm md:text-lg">সেরা কোয়ালিটির গ্যাজেট এবং প্রিমিয়াম ফ্যাশন আইটেম এখন আপনার হাতের মুঠোয়।</p>
+            <a href="#products" class="bg-indigo-600 hover:bg-indigo-700 text-white px-10 py-4 rounded-2xl font-bold transition-all shadow-xl shadow-indigo-500/20">এখনই কিনুন</a>
+        </div>
+    </header>
 
-    <!-- Order Modal -->
-    <div id="order-modal" class="fixed inset-0 bg-black/70 hidden z-[100] flex items-end sm:items-center justify-center">
-        <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-2xl p-6 overflow-y-auto max-h-[90vh]">
-            <div class="flex justify-between mb-4 border-b pb-2">
-                <h2 class="font-bold">অর্ডার ফর্ম</h2>
-                <button onclick="closeModal()" class="text-2xl">&times;</button>
+    <!-- Shop Content -->
+    <main class="container mx-auto px-4 py-12" id="products">
+        
+        <!-- Category Filters -->
+        <div class="flex gap-3 mb-10 overflow-x-auto no-scrollbar pb-2">
+            <button onclick="filterProducts('all')" class="px-6 py-2 rounded-xl bg-indigo-600 text-white text-sm font-bold shadow-lg shadow-indigo-200">All Items</button>
+            <button onclick="filterProducts('Electronics')" class="px-6 py-2 rounded-xl bg-white border border-slate-200 text-sm font-bold text-slate-600 hover:bg-slate-50">Gadgets</button>
+            <button onclick="filterProducts('Fashion')" class="px-6 py-2 rounded-xl bg-white border border-slate-200 text-sm font-bold text-slate-600 hover:bg-slate-50">Fashion</button>
+        </div>
+
+        <!-- Professional Product Grid -->
+        <div id="product-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8">
+            <!-- Products via JS -->
+        </div>
+    </main>
+
+    <!-- Features Section -->
+    <section class="bg-white py-16 border-y border-slate-100">
+        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-10">
+            <div class="text-center">
+                <div class="w-16 h-16 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl"><i class="fas fa-truck-fast"></i></div>
+                <h4 class="font-bold mb-2">দ্রুত ডেলিভারি</h4>
+                <p class="text-slate-500 text-sm">সারা বাংলাদেশে দ্রুততম ডেলিভারি নিশ্চিত করি।</p>
+            </div>
+            <div class="text-center">
+                <div class="w-16 h-16 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl"><i class="fas fa-shield-halved"></i></div>
+                <h4 class="font-bold mb-2">নিরাপদ পেমেন্ট</h4>
+                <p class="text-slate-500 text-sm">বিকাশ, নগদ এবং ক্যাশ অন ডেলিভারি সুবিধা।</p>
+            </div>
+            <div class="text-center">
+                <div class="w-16 h-16 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl"><i class="fas fa-headset"></i></div>
+                <h4 class="font-bold mb-2">২৪/৭ সাপোর্ট</h4>
+                <p class="text-slate-500 text-sm">যেকোনো প্রয়োজনে আমাদের হোয়াটসঅ্যাপে পাবেন।</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white py-12 border-t">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-2xl font-bold font-logo mb-6 tracking-tighter">LUXE STORE</h2>
+            <div class="flex justify-center gap-6 mb-8 text-xl text-slate-400">
+                <a href="#" class="hover:text-indigo-600 transition"><i class="fab fa-facebook"></i></a>
+                <a href="#" class="hover:text-indigo-600 transition"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="hover:text-indigo-600 transition"><i class="fab fa-whatsapp"></i></a>
+            </div>
+            <p class="text-slate-400 text-xs">© 2024 LUXESTORE. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Full Screen Order Modal -->
+    <div id="order-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-md hidden z-[100] flex items-end sm:items-center justify-center">
+        <div class="bg-white w-full max-w-md rounded-t-[40px] sm:rounded-[32px] p-8 shadow-2xl overflow-y-auto max-h-[90vh]">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold italic text-slate-800 tracking-tight">Checkout</h2>
+                <button onclick="closeModal()" class="w-10 h-10 flex items-center justify-center rounded-full bg-slate-100 text-slate-500 text-2xl">&times;</button>
             </div>
             
+            <div id="selected-info" class="mb-8 p-4 bg-indigo-50 rounded-2xl flex gap-4 items-center border border-indigo-100"></div>
+
             <div class="space-y-4">
-                <div id="selected-info" class="bg-gray-100 p-3 rounded-xl flex gap-3 items-center"></div>
-                <input type="text" id="name" placeholder="আপনার নাম" class="w-full p-3 border rounded-xl outline-none">
-                <input type="text" id="address" placeholder="আপনার ঠিকানা" class="w-full p-3 border rounded-xl outline-none">
-                <input type="number" id="phone" placeholder="মোবাইল নাম্বার" class="w-full p-3 border rounded-xl outline-none">
-                
-                <p class="font-bold text-sm">পেমেন্ট মেথড:</p>
                 <div class="space-y-2">
-                    <label class="flex justify-between p-3 border rounded-xl cursor-pointer">
-                        <span>বিকাশ (bKash)</span>
-                        <input type="radio" name="pay" value="bKash" checked>
-                    </label>
-                    <label class="flex justify-between p-3 border rounded-xl cursor-pointer">
-                        <span>নগদ (Nagad)</span>
-                        <input type="radio" name="pay" value="Nagad">
-                    </label>
-                    <label class="flex justify-between p-3 border rounded-xl cursor-pointer">
-                        <span>ক্যাশ অন ডেলিভারি</span>
-                        <input type="radio" name="pay" value="Cash on Delivery">
-                    </label>
+                    <label class="text-xs font-bold text-slate-400 ml-1">আপনার নাম</label>
+                    <input type="text" id="name" placeholder="যেমন: ফয়সাল আহমেদ" class="w-full p-4 bg-slate-50 border-none rounded-2xl outline-none focus:ring-2 ring-indigo-500 transition">
+                </div>
+                <div class="space-y-2">
+                    <label class="text-xs font-bold text-slate-400 ml-1">পুরো ঠিকানা</label>
+                    <input type="text" id="address" placeholder="গ্রাম, থানা, জেলা" class="w-full p-4 bg-slate-50 border-none rounded-2xl outline-none focus:ring-2 ring-indigo-500 transition">
+                </div>
+                <div class="space-y-2">
+                    <label class="text-xs font-bold text-slate-400 ml-1">মোবাইল নাম্বার</label>
+                    <input type="number" id="phone" placeholder="01XXX-XXXXXX" class="w-full p-4 bg-slate-50 border-none rounded-2xl outline-none focus:ring-2 ring-indigo-500 transition">
                 </div>
 
-                <button onclick="sendOrder()" class="w-full bg-green-500 text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2">
-                    <i class="fab fa-whatsapp"></i> হোয়াটসঅ্যাপে অর্ডার দিন
+                <div class="pt-4">
+                    <p class="font-bold text-sm mb-3 ml-1 text-slate-600">পেমেন্ট মেথড সিলেক্ট করুন:</p>
+                    <div class="grid grid-cols-1 gap-2">
+                        <label class="flex justify-between p-4 bg-slate-50 rounded-2xl cursor-pointer border-2 border-transparent has-[:checked]:border-indigo-600 has-[:checked]:bg-indigo-50 transition">
+                            <span class="font-bold text-slate-700">বিকাশ / নগদ</span>
+                            <input type="radio" name="pay" value="Mobile Banking" checked class="accent-indigo-600">
+                        </label>
+                        <label class="flex justify-between p-4 bg-slate-50 rounded-2xl cursor-pointer border-2 border-transparent has-[:checked]:border-indigo-600 has-[:checked]:bg-indigo-50 transition">
+                            <span class="font-bold text-slate-700">ক্যাশ অন ডেলিভারি</span>
+                            <input type="radio" name="pay" value="Cash on Delivery" class="accent-indigo-600">
+                        </label>
+                    </div>
+                </div>
+
+                <button onclick="sendOrder()" class="w-full bg-[#25D366] text-white py-5 rounded-[20px] font-extrabold flex items-center justify-center gap-3 text-lg shadow-xl shadow-green-500/20 active:scale-95 transition-all mt-6">
+                    <i class="fab fa-whatsapp text-2xl"></i> কনফার্ম করুন
                 </button>
             </div>
         </div>
     </div>
 
     <script>
-        const WHATSAPP = "8801963792670"; // আপনার নাম্বার
+        const WHATSAPP = "8801963792670"; 
         
-        let products = JSON.parse(localStorage.getItem('my_store')) || [
-            { id: 1, name: "Premium Headphone", price: 3500, img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400" },
-            { id: 2, name: "Smart Watch V2", price: 5200, img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400" }
+        let products = JSON.parse(localStorage.getItem('foysal_premium_store')) || [
+            { id: 1, name: "Premium Noise Cancelling Headphone", price: 3500, cat: "Electronics", img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600" },
+            { id: 2, name: "Minimalist Smart Watch V2", price: 5200, cat: "Electronics", img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600" },
+            { id: 3, name: "Urban Explorer Backpack", price: 2800, cat: "Fashion", img: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600" },
+            { id: 4, name: "Organic Cotton T-Shirt", price: 1200, cat: "Fashion", img: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600" }
         ];
 
         let selected = null;
 
-        function render() {
-            const g = document.getElementById('product-grid');
-            g.innerHTML = products.map(p => `
-                <div onclick="openOrder(${p.id})" class="bg-white rounded-xl shadow-sm border p-2 cursor-pointer transition active:scale-95">
-                    <img src="${p.img}" class="w-full h-32 object-cover rounded-lg mb-2">
-                    <h3 class="font-bold text-xs truncate">${p.name}</h3>
-                    <p class="text-indigo-600 font-bold text-sm mt-1">৳${p.price}</p>
-                    <button class="w-full mt-2 bg-indigo-600 text-white text-[10px] py-2 rounded-lg font-bold uppercase tracking-wider">Order Now</button>
+        function renderProducts(list) {
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = list.map(p => `
+                <div onclick="openOrder(${p.id})" class="product-card bg-white rounded-[24px] overflow-hidden border border-slate-100 shadow-sm hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+                    <div class="relative overflow-hidden aspect-square">
+                        <img src="${p.img}" class="w-full h-full object-cover transition-transform duration-700">
+                        <div class="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    </div>
+                    <div class="p-5">
+                        <p class="text-[10px] font-bold text-indigo-600 uppercase tracking-widest mb-1">${p.cat}</p>
+                        <h3 class="font-bold text-slate-800 text-sm md:text-base line-clamp-1 mb-3">${p.name}</h3>
+                        <div class="flex justify-between items-center">
+                            <span class="text-lg font-extrabold text-slate-900 leading-none">৳${p.price}</span>
+                            <div class="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center text-xs group-hover:bg-indigo-600 transition-colors">
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             `).join('');
         }
@@ -88,8 +169,13 @@
         function openOrder(id) {
             selected = products.find(p => p.id === id);
             document.getElementById('selected-info').innerHTML = `
-                <img src="${selected.img}" class="w-12 h-12 rounded object-cover">
-                <span class="font-bold text-sm">${selected.name} - ৳${selected.price}</span>
+                <div class="w-16 h-16 rounded-xl overflow-hidden shadow-inner border border-white">
+                    <img src="${selected.img}" class="w-full h-full object-cover">
+                </div>
+                <div>
+                    <h4 class="font-bold text-slate-800 text-sm">${selected.name}</h4>
+                    <p class="text-indigo-600 font-extrabold">৳${selected.price}</p>
+                </div>
             `;
             document.getElementById('order-modal').classList.remove('hidden');
         }
@@ -97,32 +183,30 @@
         function closeModal() { document.getElementById('order-modal').classList.add('hidden'); }
 
         function sendOrder() {
-            const n = document.getElementById('name').value;
-            const a = document.getElementById('address').value;
-            const ph = document.getElementById('phone').value;
-            const p = document.querySelector('input[name="pay"]:checked').value;
-
-            if(!n || !a || !ph) { alert("সব তথ্য দিন!"); return; }
-
-            let msg = `নতুন অর্ডার এসেছে!\n\nপ্রোডাক্ট: ${selected.name}\nমূল্য: ৳${selected.price}\n\nকাস্টমার তথ্য:\nনাম: ${n}\nঠিকানা: ${a}\nমোবাইল: ${ph}\nপেমেন্ট: ${p}`;
+            const n = document.getElementById('name').value, a = document.getElementById('address').value, ph = document.getElementById('phone').value, p = document.querySelector('input[name="pay"]:checked').value;
+            if(!n || !a || !ph) { alert("দয়া করে সব তথ্য পূরণ করুন!"); return; }
+            let msg = `অর্ডার কনফার্মেশন!\n\nপণ্য: ${selected.name}\nমূল্য: ৳${selected.price}\n\n-- কাস্টমার তথ্য --\nনাম: ${n}\nঠিকানা: ${a}\nমোবাইল: ${ph}\nপেমেন্ট পদ্ধতি: ${p}\n\nধন্যবাদ!`;
             window.location.href = `https://api.whatsapp.com/send?phone=${WHATSAPP}&text=${encodeURIComponent(msg)}`;
         }
 
+        function filterProducts(cat) {
+            const filtered = cat === 'all' ? products : products.filter(p => p.cat === cat);
+            renderProducts(filtered);
+        }
+
         function openAdmin() {
-            const pass = prompt("অ্যাডমিন পাসওয়ার্ড (admin123):");
+            const pass = prompt("পাসওয়ার্ড দিন:");
             if(pass === 'Foysal12@#') {
-                const name = prompt("পণ্যর নাম:");
-                const price = prompt("দাম:");
-                const img = prompt("ছবির লিঙ্ক (Unsplash/Imgur):");
+                const name = prompt("পণ্যের নাম:"), price = prompt("দাম:"), cat = prompt("ক্যাটাগরি:"), img = prompt("ছবির লিঙ্ক:");
                 if(name && price && img) {
-                    products.push({id: Date.now(), name, price, img});
-                    localStorage.setItem('my_store', JSON.stringify(products));
-                    render();
+                    products.push({id: Date.now(), name, price, cat, img});
+                    localStorage.setItem('foysal_premium_store', JSON.stringify(products));
+                    renderProducts(products);
                 }
             } else { alert("ভুল পাসওয়ার্ড!"); }
         }
 
-        render();
+        renderProducts(products);
     </script>
 </body>
 </html>
