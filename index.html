@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LuxeStore - Direct Order</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;700&display=swap');
+        body { font-family: 'Hind Siliguri', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- Navbar -->
+    <nav class="bg-white border-b sticky top-0 z-50 p-4 shadow-sm">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-indigo-600">LUXE STORE</h1>
+            <button onclick="openAdmin()" class="text-gray-400"><i class="fas fa-cog"></i></button>
+        </div>
+    </nav>
+
+    <!-- Product Grid -->
+    <div class="container mx-auto px-4 py-8">
+        <div id="product-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
+    </div>
+
+    <!-- Order Modal -->
+    <div id="order-modal" class="fixed inset-0 bg-black/70 hidden z-[100] flex items-end sm:items-center justify-center">
+        <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-2xl p-6 overflow-y-auto max-h-[90vh]">
+            <div class="flex justify-between mb-4 border-b pb-2">
+                <h2 class="font-bold">অর্ডার ফর্ম</h2>
+                <button onclick="closeModal()" class="text-2xl">&times;</button>
+            </div>
+            
+            <div class="space-y-4">
+                <div id="selected-info" class="bg-gray-100 p-3 rounded-xl flex gap-3 items-center"></div>
+                <input type="text" id="name" placeholder="আপনার নাম" class="w-full p-3 border rounded-xl outline-none">
+                <input type="text" id="address" placeholder="আপনার ঠিকানা" class="w-full p-3 border rounded-xl outline-none">
+                <input type="number" id="phone" placeholder="মোবাইল নাম্বার" class="w-full p-3 border rounded-xl outline-none">
+                
+                <p class="font-bold text-sm">পেমেন্ট মেথড:</p>
+                <div class="space-y-2">
+                    <label class="flex justify-between p-3 border rounded-xl cursor-pointer">
+                        <span>বিকাশ (bKash)</span>
+                        <input type="radio" name="pay" value="bKash" checked>
+                    </label>
+                    <label class="flex justify-between p-3 border rounded-xl cursor-pointer">
+                        <span>নগদ (Nagad)</span>
+                        <input type="radio" name="pay" value="Nagad">
+                    </label>
+                    <label class="flex justify-between p-3 border rounded-xl cursor-pointer">
+                        <span>ক্যাশ অন ডেলিভারি</span>
+                        <input type="radio" name="pay" value="Cash on Delivery">
+                    </label>
+                </div>
+
+                <button onclick="sendOrder()" class="w-full bg-green-500 text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2">
+                    <i class="fab fa-whatsapp"></i> হোয়াটসঅ্যাপে অর্ডার দিন
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const WHATSAPP = "8801963792670"; // আপনার নাম্বার
+        
+        let products = JSON.parse(localStorage.getItem('my_store')) || [
+            { id: 1, name: "Premium Headphone", price: 3500, img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400" },
+            { id: 2, name: "Smart Watch V2", price: 5200, img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400" }
+        ];
+
+        let selected = null;
+
+        function render() {
+            const g = document.getElementById('product-grid');
+            g.innerHTML = products.map(p => `
+                <div onclick="openOrder(${p.id})" class="bg-white rounded-xl shadow-sm border p-2 cursor-pointer transition active:scale-95">
+                    <img src="${p.img}" class="w-full h-32 object-cover rounded-lg mb-2">
+                    <h3 class="font-bold text-xs truncate">${p.name}</h3>
+                    <p class="text-indigo-600 font-bold text-sm mt-1">৳${p.price}</p>
+                    <button class="w-full mt-2 bg-indigo-600 text-white text-[10px] py-2 rounded-lg font-bold uppercase tracking-wider">Order Now</button>
+                </div>
+            `).join('');
+        }
+
+        function openOrder(id) {
+            selected = products.find(p => p.id === id);
+            document.getElementById('selected-info').innerHTML = `
+                <img src="${selected.img}" class="w-12 h-12 rounded object-cover">
+                <span class="font-bold text-sm">${selected.name} - ৳${selected.price}</span>
+            `;
+            document.getElementById('order-modal').classList.remove('hidden');
+        }
+
+        function closeModal() { document.getElementById('order-modal').classList.add('hidden'); }
+
+        function sendOrder() {
+            const n = document.getElementById('name').value;
+            const a = document.getElementById('address').value;
+            const ph = document.getElementById('phone').value;
+            const p = document.querySelector('input[name="pay"]:checked').value;
+
+            if(!n || !a || !ph) { alert("সব তথ্য দিন!"); return; }
+
+            let msg = `নতুন অর্ডার এসেছে!\n\nপ্রোডাক্ট: ${selected.name}\nমূল্য: ৳${selected.price}\n\nকাস্টমার তথ্য:\nনাম: ${n}\nঠিকানা: ${a}\nমোবাইল: ${ph}\nপেমেন্ট: ${p}`;
+            window.location.href = `https://api.whatsapp.com/send?phone=${WHATSAPP}&text=${encodeURIComponent(msg)}`;
+        }
+
+        function openAdmin() {
+            const pass = prompt("অ্যাডমিন পাসওয়ার্ড (admin123):");
+            if(pass === 'Foysal12@#') {
+                const name = prompt("পণ্যর নাম:");
+                const price = prompt("দাম:");
+                const img = prompt("ছবির লিঙ্ক (Unsplash/Imgur):");
+                if(name && price && img) {
+                    products.push({id: Date.now(), name, price, img});
+                    localStorage.setItem('my_store', JSON.stringify(products));
+                    render();
+                }
+            } else { alert("ভুল পাসওয়ার্ড!"); }
+        }
+
+        render();
+    </script>
+</body>
+</html>
