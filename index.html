@@ -3,100 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LuxeStore | Admin Pro</title>
+    <title>LuxeStore | Premium Shop & Admin</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;600;700&family=Plus+Jakarta+Sans:wght@700&display=swap');
-        body { font-family: 'Hind Siliguri', sans-serif; background-color: #f8fafc; }
+        body { font-family: 'Hind Siliguri', sans-serif; background-color: #f8fafc; scroll-behavior: smooth; }
         .font-logo { font-family: 'Plus Jakarta Sans', sans-serif; }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
         .glass { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); }
+        .product-card:hover img { transform: scale(1.08); }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
     </style>
 </head>
-<body class="text-slate-900 leading-relaxed">
+<body class="text-slate-900">
 
-    <!-- Navbar -->
+    <!-- Premium Navbar -->
     <nav class="glass border-b border-slate-100 sticky top-0 z-[60] py-4 px-6 shadow-sm">
         <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-2xl font-extrabold tracking-tighter font-logo text-indigo-600">LUXE<span class="text-slate-900">STORE</span></h1>
-            <button onclick="openAdmin()" class="bg-slate-100 h-10 w-10 rounded-xl flex items-center justify-center text-slate-500"><i class="fas fa-plus"></i></button>
+            <h1 class="text-2xl font-extrabold tracking-tighter font-logo text-indigo-600 uppercase">LUXE<span class="text-slate-900">STORE</span></h1>
+            <button onclick="openAdmin()" class="bg-slate-100 h-11 w-11 rounded-2xl flex items-center justify-center text-slate-500 hover:text-indigo-600 transition shadow-inner">
+                <i class="fas fa-gear text-lg"></i>
+            </button>
         </div>
     </nav>
 
-    <!-- Banner -->
-    <header class="bg-slate-900 py-10 px-6 text-center relative overflow-hidden">
-        <div class="relative z-10">
-            <h1 class="text-3xl font-bold text-white mb-2">প্রিমিয়াম কালেকশন</h1>
-            <p class="text-slate-400 text-sm">সরাসরি গ্যালারি থেকে প্রোডাক্ট যোগ করুন</p>
+    <!-- Ultra Premium Hero Section -->
+    <header class="bg-slate-900 py-16 px-6 text-center relative overflow-hidden">
+        <div class="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+        <div class="relative z-10 max-w-2xl mx-auto">
+            <span class="inline-block px-4 py-1 rounded-full bg-indigo-500/20 text-indigo-300 text-[10px] font-bold mb-4 tracking-widest uppercase border border-indigo-500/30">New Collection 2024</span>
+            <h1 class="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">আপনার লাইফস্টাইল হোক আরও <span class="text-indigo-400 italic">প্রিমিয়াম</span></h1>
+            <p class="text-slate-400 mb-8 text-sm md:text-lg">সেরা গ্যাজেট এবং ফ্যাশন আইটেম এখন সরাসরি গ্যালারি থেকে যোগ করার সুবিধাসহ।</p>
+            <a href="#shop" class="bg-indigo-600 hover:bg-indigo-700 text-white px-10 py-4 rounded-2xl font-bold transition-all shadow-xl shadow-indigo-500/20 inline-block">Shop Now</a>
         </div>
     </header>
 
-    <!-- Product Grid -->
-    <main class="container mx-auto px-4 py-10">
-        <div id="product-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <!-- Products will load here -->
+    <!-- Product Section -->
+    <main class="container mx-auto px-4 py-12" id="shop">
+        <div class="flex items-center justify-between mb-8">
+            <h2 class="text-2xl font-bold tracking-tight text-slate-800 italic">Trending Now</h2>
+            <div class="h-1 w-20 bg-indigo-600 rounded-full"></div>
+        </div>
+
+        <!-- 2-Column Responsive Grid -->
+        <div id="product-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8">
+            <!-- Products via JS -->
         </div>
     </main>
 
-    <!-- Admin Panel Modal (Updated with File Upload) -->
-    <div id="admin-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md hidden z-[100] flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-lg rounded-[32px] p-8 shadow-2xl overflow-y-auto max-h-[90vh]">
-            <div id="admin-login-ui">
-                <h2 class="text-2xl font-bold mb-6 text-center">Admin Login</h2>
-                <input type="password" id="admin-pass" placeholder="পাসওয়ার্ড (admin123)" class="w-full p-4 bg-slate-50 border rounded-2xl mb-4 outline-none">
-                <button onclick="checkAdminPass()" class="w-full bg-indigo-600 text-white py-4 rounded-2xl font-bold">প্রবেশ করুন</button>
-            </div>
-
-            <div id="admin-content-ui" class="hidden space-y-5">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-2xl font-bold">নতুন প্রোডাক্ট যোগ করুন</h2>
-                    <button onclick="closeAdmin()" class="text-slate-400 text-2xl">&times;</button>
-                </div>
-                
-                <div class="space-y-4">
-                    <input type="text" id="p-name" placeholder="প্রোডাক্টের নাম" class="w-full p-4 bg-slate-50 border rounded-2xl outline-none">
-                    <input type="number" id="p-price" placeholder="দাম (৳)" class="w-full p-4 bg-slate-50 border rounded-2xl outline-none">
-                    
-                    <div class="space-y-2">
-                        <label class="text-xs font-bold text-slate-400">প্রোডাক্টের ছবি সিলেক্ট করুন (গ্যালারি থেকে)</label>
-                        <input type="file" id="p-image-file" accept="image/*" class="w-full p-3 bg-slate-50 border border-dashed border-indigo-300 rounded-2xl text-sm">
-                    </div>
-
-                    <button onclick="saveProduct()" id="save-btn" class="w-full bg-indigo-600 text-white py-4 rounded-2xl font-bold shadow-lg">Save Product</button>
-                </div>
-
-                <div class="border-t pt-6 mt-6">
-                    <h3 class="font-bold mb-4">বর্তমান প্রোডাক্টসমূহ:</h3>
-                    <div id="admin-product-list" class="space-y-3">
-                        <!-- Delete option for products -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Order Modal (Same as before) -->
-    <div id="order-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-md hidden z-[110] flex items-end sm:items-center justify-center">
+    <!-- Order Modal (Full Design) -->
+    <div id="order-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-md hidden z-[100] flex items-end sm:items-center justify-center">
         <div class="bg-white w-full max-w-md rounded-t-[40px] sm:rounded-[32px] p-8 shadow-2xl overflow-y-auto max-h-[90vh]">
-            <button onclick="closeModal()" class="absolute top-6 right-6 text-2xl text-slate-400">&times;</button>
-            <div id="order-info" class="mb-6 p-4 bg-indigo-50 rounded-2xl flex gap-4 items-center border"></div>
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold italic tracking-tight">অর্ডার করুন</h2>
+                <button onclick="closeModal()" class="w-10 h-10 flex items-center justify-center rounded-full bg-slate-100 text-slate-500 text-2xl">&times;</button>
+            </div>
+            
+            <div id="selected-info" class="mb-6 p-4 bg-indigo-50 rounded-2xl flex gap-4 items-center border border-indigo-100"></div>
+
             <div class="space-y-4">
-                <input type="text" id="cust-name" placeholder="আপনার নাম" class="w-full p-4 bg-slate-50 rounded-2xl outline-none border">
-                <input type="text" id="cust-addr" placeholder="ঠিকানা" class="w-full p-4 bg-slate-50 rounded-2xl outline-none border">
-                <input type="number" id="cust-phone" placeholder="মোবাইল নাম্বার" class="w-full p-4 bg-slate-50 rounded-2xl outline-none border">
-                <button onclick="confirmWhatsApp()" class="w-full bg-[#25D366] text-white py-5 rounded-[20px] font-extrabold flex items-center justify-center gap-2">
+                <input type="text" id="cust-name" placeholder="আপনার নাম" class="w-full p-4 bg-slate-50 border-none rounded-2xl outline-none focus:ring-2 ring-indigo-500">
+                <input type="text" id="cust-addr" placeholder="পুরো ঠিকানা" class="w-full p-4 bg-slate-50 border-none rounded-2xl outline-none focus:ring-2 ring-indigo-500">
+                <input type="number" id="cust-phone" placeholder="মোবাইল নাম্বার" class="w-full p-4 bg-slate-50 border-none rounded-2xl outline-none focus:ring-2 ring-indigo-500">
+                
+                <div class="py-2">
+                    <p class="font-bold text-xs text-slate-400 mb-3 ml-1 uppercase">পেমেন্ট মেথড:</p>
+                    <div class="grid grid-cols-1 gap-2">
+                        <label class="flex justify-between p-4 bg-slate-50 rounded-2xl cursor-pointer border-2 border-transparent has-[:checked]:border-indigo-600 has-[:checked]:bg-indigo-50 transition font-bold">
+                            <span>বিকাশ / নগদ</span>
+                            <input type="radio" name="pay" value="Mobile Banking" checked>
+                        </label>
+                        <label class="flex justify-between p-4 bg-slate-50 rounded-2xl cursor-pointer border-2 border-transparent has-[:checked]:border-indigo-600 has-[:checked]:bg-indigo-50 transition font-bold">
+                            <span>ক্যাশ অন ডেলিভারি</span>
+                            <input type="radio" name="pay" value="Cash on Delivery">
+                        </label>
+                    </div>
+                </div>
+
+                <button onclick="sendOrder()" class="w-full bg-[#25D366] text-white py-5 rounded-[22px] font-extrabold flex items-center justify-center gap-3 text-lg shadow-xl shadow-green-500/20 active:scale-95 transition-all">
                     <i class="fab fa-whatsapp text-2xl"></i> কনফার্ম করুন
                 </button>
             </div>
         </div>
     </div>
 
+    <!-- Advanced Admin Panel Modal -->
+    <div id="admin-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md hidden z-[120] flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-lg rounded-[32px] p-8 shadow-2xl overflow-y-auto max-h-[90vh]">
+            <div id="admin-login-ui">
+                <h2 class="text-2xl font-bold mb-6 text-center italic">Admin Access</h2>
+                <input type="password" id="admin-pass" placeholder="পাসওয়ার্ড (admin123)" class="w-full p-4 bg-slate-50 border rounded-2xl mb-4 outline-none">
+                <button onclick="checkAdminPass()" class="w-full bg-indigo-600 text-white py-4 rounded-2xl font-bold shadow-lg">Login</button>
+                <button onclick="closeAdmin()" class="w-full mt-4 text-slate-400">Cancel</button>
+            </div>
+
+            <div id="admin-content-ui" class="hidden space-y-6">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-2xl font-bold italic">Dashboard</h2>
+                    <button onclick="closeAdmin()" class="text-slate-400 text-2xl">&times;</button>
+                </div>
+                
+                <div class="bg-slate-50 p-6 rounded-3xl space-y-4">
+                    <h3 class="font-bold text-indigo-600 text-sm uppercase tracking-widest">নতুন পণ্য যোগ করুন</h3>
+                    <input type="text" id="p-name" placeholder="পণ্যের নাম" class="w-full p-4 bg-white border-none rounded-xl outline-none shadow-sm">
+                    <input type="number" id="p-price" placeholder="দাম (৳)" class="w-full p-4 bg-white border-none rounded-xl outline-none shadow-sm">
+                    
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-bold text-slate-400 ml-1 uppercase">গ্যালারি থেকে ছবি সিলেক্ট করুন</label>
+                        <input type="file" id="p-image-file" accept="image/*" class="w-full p-4 bg-white border-2 border-dashed border-indigo-100 rounded-xl text-xs">
+                    </div>
+
+                    <button onclick="saveProduct()" id="save-btn" class="w-full bg-indigo-600 text-white py-4 rounded-xl font-bold shadow-lg shadow-indigo-500/20 active:scale-95 transition-all">Save to Shop</button>
+                </div>
+
+                <div class="border-t pt-6">
+                    <h3 class="font-bold mb-4 text-slate-500">আপনার বর্তমান প্রোডাক্টসমূহ:</h3>
+                    <div id="admin-product-list" class="space-y-3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
-        const WHATSAPP_NUM = "8801963792670"; // আপনার নাম্বার দিন
+        const WHATSAPP = "8801963792670"; 
         
-        // ১. লোকাল স্টোরেজ থেকে ডাটা নেওয়া
-        let products = JSON.parse(localStorage.getItem('foysal_final_store')) || [
+        let products = JSON.parse(localStorage.getItem('foysal_ultra_store')) || [
             { id: 1, name: "Premium Headphone", price: 3500, img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500" },
             { id: 2, name: "Smart Watch V2", price: 5200, img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500" }
         ];
@@ -107,99 +138,88 @@
             const grid = document.getElementById('product-grid');
             const adminList = document.getElementById('admin-product-list');
             
-            // শপ গ্রিড রেন্ডার
             grid.innerHTML = products.map(p => `
-                <div onclick="openOrder(${p.id})" class="bg-white rounded-[24px] overflow-hidden border border-slate-100 shadow-sm active:scale-95 transition cursor-pointer">
-                    <img src="${p.img}" class="w-full h-40 object-cover">
-                    <div class="p-4 text-center">
-                        <h3 class="font-bold text-sm line-clamp-1">${p.name}</h3>
-                        <p class="text-indigo-600 font-extrabold text-sm">৳${p.price}</p>
-                        <button class="mt-2 w-full bg-slate-900 text-white text-[10px] py-2 rounded-lg font-bold">ORDER NOW</button>
+                <div onclick="openOrder(${p.id})" class="product-card bg-white rounded-[28px] overflow-hidden border border-slate-100 shadow-sm hover:shadow-2xl transition-all duration-500 group cursor-pointer">
+                    <div class="relative overflow-hidden aspect-square">
+                        <img src="${p.img}" class="w-full h-full object-cover transition-transform duration-700">
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-bold text-slate-800 text-xs md:text-sm line-clamp-1 mb-2">${p.name}</h3>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm md:text-lg font-extrabold text-slate-900">৳${p.price}</span>
+                            <div class="w-8 h-8 rounded-lg bg-slate-900 text-white flex items-center justify-center text-[10px] group-hover:bg-indigo-600 transition-colors">
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </div>
                     </div>
                 </div>
             `).join('');
 
-            // অ্যাডমিন লিস্ট রেন্ডার
             adminList.innerHTML = products.map((p, index) => `
-                <div class="flex justify-between items-center p-3 bg-slate-50 rounded-xl border">
-                    <div class="flex items-center gap-3 text-xs">
-                        <img src="${p.img}" class="w-8 h-8 rounded object-cover">
-                        <span class="font-bold">${p.name}</span>
+                <div class="flex justify-between items-center p-3 bg-white rounded-2xl shadow-sm border border-slate-100">
+                    <div class="flex items-center gap-3">
+                        <img src="${p.img}" class="w-10 h-10 rounded-lg object-cover border">
+                        <div class="text-[10px]">
+                            <p class="font-bold">${p.name}</p>
+                            <p class="text-indigo-600 font-bold">৳${p.price}</p>
+                        </div>
                     </div>
-                    <button onclick="deleteProduct(${index})" class="text-red-500"><i class="fas fa-trash"></i></button>
+                    <button onclick="deleteProduct(${index})" class="h-8 w-8 bg-red-50 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition"><i class="fas fa-trash-alt text-xs"></i></button>
                 </div>
             `).join('');
         }
 
-        // ২. সরাসরি ছবি আপলোড লজিক (Base64)
         function saveProduct() {
             const name = document.getElementById('p-name').value;
             const price = document.getElementById('p-price').value;
-            const fileInput = document.getElementById('p-image-file');
+            const file = document.getElementById('p-image-file').files[0];
             const btn = document.getElementById('save-btn');
 
-            if (!name || !price || !fileInput.files[0]) {
-                alert("দয়া করে সব তথ্য এবং ছবি দিন!");
-                return;
-            }
+            if (!name || !price || !file) { alert("সব তথ্য এবং ছবি দিন!"); return; }
 
             btn.innerText = "Uploading...";
-            btn.disabled = true;
-
             const reader = new FileReader();
-            reader.readAsDataURL(fileInput.files[0]);
+            reader.readAsDataURL(file);
             reader.onload = function () {
-                const base64Image = reader.result;
-                const newProduct = {
-                    id: Date.now(),
-                    name: name,
-                    price: price,
-                    img: base64Image
-                };
-
-                products.push(newProduct);
-                localStorage.setItem('foysal_final_store', JSON.stringify(products));
+                products.push({ id: Date.now(), name, price, img: reader.result });
+                localStorage.setItem('foysal_ultra_store', JSON.stringify(products));
                 render();
-                
-                // ফর্ম ক্লিয়ার করা
                 document.getElementById('p-name').value = '';
                 document.getElementById('p-price').value = '';
                 document.getElementById('p-image-file').value = '';
-                btn.innerText = "Save Product";
-                btn.disabled = false;
+                btn.innerText = "Save to Shop";
                 alert("পণ্যটি সফলভাবে যোগ হয়েছে!");
             };
         }
 
         function deleteProduct(index) {
-            if(confirm("আপনি কি এটি ডিলিট করতে চান?")) {
+            if(confirm("ডিলিট করতে চান?")) {
                 products.splice(index, 1);
-                localStorage.setItem('foysal_final_store', JSON.stringify(products));
+                localStorage.setItem('foysal_ultra_store', JSON.stringify(products));
                 render();
             }
         }
 
-        // অর্ডারিং এবং অন্যান্য ফাংশন
         function openOrder(id) {
             selected = products.find(p => p.id === id);
-            document.getElementById('order-info').innerHTML = `
-                <img src="${selected.img}" class="w-16 h-16 rounded-xl object-cover">
-                <div><h4 class="font-bold text-sm">${selected.name}</h4><p class="text-indigo-600 font-bold">৳${selected.price}</p></div>
+            document.getElementById('selected-info').innerHTML = `
+                <img src="${selected.img}" class="w-16 h-16 rounded-xl object-cover shadow-sm border-2 border-white">
+                <div><h4 class="font-bold text-slate-800 text-sm leading-tight">${selected.name}</h4><p class="text-indigo-600 font-extrabold text-lg">৳${selected.price}</p></div>
             `;
             document.getElementById('order-modal').classList.remove('hidden');
         }
         function closeModal() { document.getElementById('order-modal').classList.add('hidden'); }
-        function confirmWhatsApp() {
-            const n = document.getElementById('cust-name').value, a = document.getElementById('cust-addr').value, ph = document.getElementById('cust-phone').value;
+        function sendOrder() {
+            const n = document.getElementById('cust-name').value, a = document.getElementById('cust-addr').value, ph = document.getElementById('cust-phone').value, p = document.querySelector('input[name="pay"]:checked').value;
             if(!n || !a || !ph) { alert("সব তথ্য দিন!"); return; }
-            let msg = `নতুন অর্ডার!\n\nপ্রোডাক্ট: ${selected.name}\nমূল্য: ৳${selected.price}\n\nকাস্টমার: ${n}\nঠিকানা: ${a}\nমোবাইল: ${ph}`;
-            window.location.href = `https://api.whatsapp.com/send?phone=${WHATSAPP_NUM}&text=${encodeURIComponent(msg)}`;
+            let msg = `নতুন অর্ডার এসেছে!\n\nপণ্য: ${selected.name}\nমূল্য: ৳${selected.price}\n\n-- কাস্টমার তথ্য --\nনাম: ${n}\nঠিকানা: ${a}\nমোবাইল: ${ph}\nপেমেন্ট: ${p}`;
+            window.location.href = `https://api.whatsapp.com/send?phone=${WHATSAPP}&text=${encodeURIComponent(msg)}`;
         }
 
         function openAdmin() { document.getElementById('admin-modal').classList.remove('hidden'); }
         function closeAdmin() { document.getElementById('admin-modal').classList.add('hidden'); }
         function checkAdminPass() {
-            if(document.getElementById('admin-pass').value === 'admin123') {
+            if(document.getElementById('admin-pass').value === 'Foysal12@#') {
                 document.getElementById('admin-login-ui').classList.add('hidden');
                 document.getElementById('admin-content-ui').classList.remove('hidden');
             } else { alert("ভুল পাসওয়ার্ড!"); }
