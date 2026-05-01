@@ -1,306 +1,305 @@
-‎<!DOCTYPE html>
-‎<html lang="en">
-‎<head>
-‎    <meta charset="UTF-8">
-‎    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-‎    <title>Z E N V Y | Premium Experience</title>
-‎    <script src="https://cdn.tailwindcss.com"></script>
-‎    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-‎    
-‎    <!-- Firebase SDK -->
-‎    <script type="module">
-‎        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-‎        import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
-‎
-‎        const firebaseConfig = {
-‎            apiKey: "AIzaSyALuGjVy2_L-ufS785MzFPmde0Po2HTxD8",
-‎            authDomain: "foysal-store.firebaseapp.com",
-‎            projectId: "foysal-store",
-‎            storageBucket: "foysal-store.firebasestorage.app",
-‎            messagingSenderId: "509319347526",
-‎            appId: "1:509319347526:web:7958b038fc9b2ad1953947",
-‎            databaseURL: "https://foysal-store-default-rtdb.firebaseio.com"
-‎        };
-‎
-‎        const app = initializeApp(firebaseConfig);
-‎        window.db = getDatabase(app);
-‎        window.dbRef = ref; window.dbPush = push; window.dbOnValue = onValue; window.dbRemove = remove;
-‎    </script>
-‎
-‎    <style>
-‎        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&family=Hind+Siliguri:wght@400;700&display=swap');
-‎        body { font-family: 'Plus Jakarta Sans', 'Hind Siliguri', sans-serif; background-color: #f8fafc; }
-‎        
-‎        /* ZENVY Theme Colors */
-‎        :root { --zenvy-cyan: #4db8ff; --zenvy-dark: #000000; }
-‎        
-‎        .hero-bg { background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1600'); background-size: cover; background-position: center; height: 300px; display: flex; align-items: center; justify-content: center; }
-‎        .product-card { border-radius: 18px; transition: 0.3s ease; background: #fff; border: 1px solid #f1f5f9; }
-‎        .product-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
-‎        .glass-nav { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(12px); }
-‎        .no-scrollbar::-webkit-scrollbar { display: none; }
-‎        
-‎        /* Custom Button */
-‎        .btn-zenvy { background-color: var(--zenvy-dark); color: white; transition: 0.3s; }
-‎        .btn-zenvy:hover { background-color: var(--zenvy-cyan); }
-‎    </style>
-‎</head>
-‎<body class="text-slate-900">
-‎
-‎    <!-- Navbar -->
-‎    <nav class="glass-nav border-b sticky top-0 z-50 py-3 px-5 flex justify-between items-center">
-‎        <div class="flex items-center gap-3">
-‎            <!-- logo based on your image -->
-‎            <div class="w-10 h-10 bg-black rounded-lg flex items-center justify-center border border-sky-400">
-‎                <span class="text-sky-400 font-bold text-xl italic">Z</span>
-‎            </div>
-‎            <h1 class="text-xl font-extrabold tracking-[3px] uppercase">Z E N V Y</h1>
-‎        </div>
-‎        
-‎        <div class="flex items-center gap-3">
-‎            <!-- User Profile -->
-‎            <button onclick="openProfile()" class="w-9 h-9 rounded-full bg-slate-100 overflow-hidden border border-slate-200 flex items-center justify-center text-slate-500 shadow-sm transition">
-‎                <img id="nav-user-img" src="" class="w-full h-full object-cover hidden">
-‎                <i id="nav-user-icon" class="fas fa-user text-sm"></i>
-‎            </button>
-‎            <!-- Admin -->
-‎            <button onclick="openLoginModal()" class="w-9 h-9 rounded-lg bg-black text-white flex items-center justify-center shadow-sm">
-‎                <i class="fas fa-shield-alt text-xs"></i>
-‎            </button>
-‎        </div>
-‎    </nav>
-‎
-‎    <!-- Website View -->
-‎    <div id="user-view">
-‎        <header class="hero-bg text-white text-center px-6">
-‎            <div class="max-w-xl">
-‎                <h1 class="text-3xl md:text-5xl font-bold mb-3 tracking-tighter uppercase">Elite Luxury</h1>
-‎                <p class="text-sky-400 text-[10px] font-bold uppercase tracking-[5px] opacity-90">Experience Z E N V Y</p>
-‎            </div>
-‎        </header>
-‎
-‎        <main class="container mx-auto px-4 py-10" id="shop">
-‎            <div class="flex items-center gap-2 mb-8">
-‎                <div class="h-6 w-1 bg-sky-500"></div>
-‎                <h2 class="text-xl font-bold uppercase tracking-widest">New Arrivals</h2>
-‎            </div>
-‎            <div id="product-grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-6">
-‎                <!-- Products load globally -->
-‎            </div>
-‎        </main>
-‎
-‎        <footer class="bg-black text-white py-16 text-center">
-‎            <h2 class="text-2xl font-bold tracking-[6px] mb-6">Z E N V Y</h2>
-‎            <div class="flex justify-center gap-8 mb-8 text-xl text-slate-400">
-‎                <a href="#" class="hover:text-sky-400 transition"><i class="fab fa-facebook"></i></a>
-‎                <a href="#" class="hover:text-sky-400 transition"><i class="fab fa-instagram"></i></a>
-‎                <a href="https://wa.me/8801963792670" class="hover:text-sky-400 transition"><i class="fab fa-whatsapp"></i></a>
-‎            </div>
-‎            <p class="text-[9px] text-slate-500 font-bold tracking-widest uppercase">© 2024 ZENVY INTERNATIONAL GROUP</p>
-‎        </footer>
-‎    </div>
-‎
-‎    <!-- User Profile Modal -->
-‎    <div id="profile-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden z-[250] flex items-center justify-center p-4">
-‎        <div class="bg-white w-full max-w-sm rounded-[30px] p-8 shadow-2xl relative">
-‎            <button onclick="closeProfile()" class="absolute top-5 right-5 text-xl text-slate-300 hover:text-red-500">&times;</button>
-‎            <h2 class="text-xl font-bold mb-6 italic border-b pb-2">User Profile</h2>
-‎            <div class="space-y-4">
-‎                <div class="flex flex-col items-center">
-‎                    <label for="u-img-input" class="relative w-20 h-20 rounded-full bg-slate-100 border-2 border-sky-500 p-1 cursor-pointer">
-‎                        <img id="u-preview-img" src="" class="w-full h-full rounded-full object-cover hidden">
-‎                        <div id="u-placeholder" class="w-full h-full rounded-full flex items-center justify-center text-slate-400"><i class="fas fa-camera"></i></div>
-‎                    </label>
-‎                    <input type="file" id="u-img-input" accept="image/*" class="hidden" onchange="previewUserImg(event)">
-‎                </div>
-‎                <input type="text" id="u-name" placeholder="Full Name" class="w-full p-3 bg-slate-50 border rounded-xl outline-none text-sm">
-‎                <input type="number" id="u-phone" placeholder="Phone Number" class="w-full p-3 bg-slate-50 border rounded-xl outline-none text-sm">
-‎                <textarea id="u-addr" placeholder="Delivery Address" class="w-full p-3 bg-slate-50 border rounded-xl outline-none text-sm h-20"></textarea>
-‎                <button onclick="saveUserProfile()" class="w-full btn-zenvy py-3 rounded-xl font-bold shadow-lg">Save Profile</button>
-‎            </div>
-‎        </div>
-‎    </div>
-‎
-‎    <!-- Order Modal -->
-‎    <div id="order-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md hidden z-[110] flex items-end sm:items-center justify-center p-0 sm:p-4">
-‎        <div class="bg-white w-full max-w-md rounded-t-[40px] sm:rounded-[30px] p-6 shadow-2xl overflow-y-auto max-h-[90vh]">
-‎            <button onclick="closeModal()" class="float-right text-xl text-slate-300">&times;</button>
-‎            <h3 class="font-bold text-lg mb-4 uppercase tracking-tighter text-sky-600">Checkout</h3>
-‎            <div id="order-info" class="mb-5 p-3 bg-slate-50 rounded-xl flex gap-4 items-center border border-sky-100"></div>
-‎            <div class="space-y-3">
-‎                <input type="text" id="c-name" placeholder="আপনার নাম" class="w-full p-3 bg-slate-50 border rounded-xl outline-none text-sm">
-‎                <input type="text" id="c-addr" placeholder="ঠিকানা" class="w-full p-3 bg-slate-50 border rounded-xl outline-none text-sm">
-‎                <input type="number" id="c-phone" placeholder="মোবাইল নাম্বার" class="w-full p-3 bg-slate-50 border rounded-xl outline-none text-sm">
-‎                <button onclick="confirmWhatsApp()" class="w-full bg-[#25D366] text-white py-4 rounded-xl font-extrabold flex items-center justify-center gap-2 shadow-lg">
-‎                    <i class="fab fa-whatsapp text-2xl"></i> CONFIRM ORDER
-‎                </button>
-‎            </div>
-‎        </div>
-‎    </div>
-‎
-‎    <!-- Admin Panel (Pass: Foysal12@#) -->
-‎    <div id="admin-login-modal" class="fixed inset-0 bg-black/90 backdrop-blur-xl hidden z-[300] flex items-center justify-center p-4">
-‎        <div class="bg-white w-full max-w-sm rounded-[35px] p-10 shadow-2xl text-center">
-‎            <h2 class="text-xl font-bold mb-6 uppercase tracking-[4px]">Security</h2>
-‎            <input type="password" id="admin-pass-input" placeholder="••••••••" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl mb-6 outline-none text-center font-bold tracking-[0.5em] focus:ring-1 ring-sky-500">
-‎            <button onclick="handleLogin()" class="w-full bg-black text-white py-3 rounded-xl font-bold shadow-lg uppercase text-xs">Verify</button>
-‎        </div>
-‎    </div>
-‎
-‎    <div id="admin-dashboard-view" class="hidden min-h-screen bg-slate-100">
-‎        <div class="bg-black text-white p-4 flex justify-between items-center shadow-xl">
-‎            <h2 class="text-sm font-bold tracking-[3px] uppercase text-sky-400">Inventory Dashboard</h2>
-‎            <button onclick="exitDashboard()" class="bg-red-600 text-white px-4 py-1.5 rounded-lg text-[10px] font-bold uppercase">Exit</button>
-‎        </div>
-‎        <div class="container mx-auto px-4 py-6 max-w-5xl grid grid-cols-1 md:grid-cols-3 gap-6">
-‎            <div class="bg-white p-6 rounded-2xl shadow-sm border border-white">
-‎                <h3 class="text-[10px] font-bold text-slate-400 uppercase mb-4 tracking-widest">Add New Elite Product</h3>
-‎                <input type="text" id="p-name" placeholder="Product Name" class="w-full p-3 bg-slate-50 border rounded-xl mb-3 text-sm">
-‎                <input type="number" id="p-price" placeholder="Price (৳)" class="w-full p-3 bg-slate-50 border rounded-xl mb-3 text-sm font-bold">
-‎                <input type="file" id="p-image-file" accept="image/*" class="w-full p-3 bg-slate-50 rounded-xl text-[10px] border border-dashed border-sky-200 mb-3">
-‎                <button id="save-btn" onclick="saveToCloud()" class="w-full bg-black text-white py-3 rounded-xl font-bold text-xs uppercase shadow-lg">Publish Globally</button>
-‎            </div>
-‎            <div class="md:col-span-2 bg-white p-6 rounded-2xl shadow-sm border border-white min-h-[400px]">
-‎                <h3 class="text-[10px] font-bold text-slate-400 uppercase mb-4 tracking-widest">Active Stock</h3>
-‎                <div id="admin-product-list" class="space-y-2"></div>
-‎            </div>
-‎        </div>
-‎    </div>
-‎
-‎    <!-- WhatsApp Bubble -->
-‎    <a href="https://wa.me/8801963792670" class="fixed bottom-6 left-6 bg-[#25D366] w-14 h-14 rounded-full flex items-center justify-center text-white text-3xl shadow-2xl z-50 hover:scale-110 transition active:scale-95">
-‎        <i class="fab fa-whatsapp"></i>
-‎    </a>
-‎
-‎    <script>
-‎        const MASTER_PASS = "Foysal12@#";
-‎        const WHATSAPP = "8801963792670";
-‎        let storeData = {};
-‎        let selectedP = null;
-‎
-‎        // PROFILE SYSTEM
-‎        window.openProfile = () => {
-‎            const data = JSON.parse(localStorage.getItem('zenvy_user')) || {};
-‎            document.getElementById('u-name').value = data.name || "";
-‎            document.getElementById('u-phone').value = data.phone || "";
-‎            document.getElementById('u-addr').value = data.addr || "";
-‎            if(data.img) {
-‎                document.getElementById('u-preview-img').src = data.img;
-‎                document.getElementById('u-preview-img').classList.remove('hidden');
-‎                document.getElementById('u-placeholder').classList.add('hidden');
-‎            }
-‎            document.getElementById('profile-modal').classList.remove('hidden');
-‎        }
-‎        window.closeProfile = () => { document.getElementById('profile-modal').classList.add('hidden'); }
-‎        window.previewUserImg = (e) => {
-‎            const file = e.target.files[0];
-‎            const reader = new FileReader();
-‎            reader.onload = () => {
-‎                document.getElementById('u-preview-img').src = reader.result;
-‎                document.getElementById('u-preview-img').classList.remove('hidden');
-‎                document.getElementById('u-placeholder').classList.add('hidden');
-‎            }
-‎            reader.readAsDataURL(file);
-‎        }
-‎        window.saveUserProfile = () => {
-‎            const profile = {
-‎                name: document.getElementById('u-name').value,
-‎                phone: document.getElementById('u-phone').value,
-‎                addr: document.getElementById('u-addr').value,
-‎                img: document.getElementById('u-preview-img').src
-‎            };
-‎            localStorage.setItem('zenvy_user', JSON.stringify(profile));
-‎            updateProfileUI();
-‎            alert("Z E N V Y Profile Updated!");
-‎            closeProfile();
-‎        }
-‎        function updateProfileUI() {
-‎            const data = JSON.parse(localStorage.getItem('zenvy_user')) || {};
-‎            if(data.img && data.img.startsWith('data:image')) {
-‎                document.getElementById('nav-user-img').src = data.img;
-‎                document.getElementById('nav-user-img').classList.remove('hidden');
-‎                document.getElementById('nav-user-icon').classList.add('hidden');
-‎            }
-‎            document.getElementById('c-name').value = data.name || "";
-‎            document.getElementById('c-phone').value = data.phone || "";
-‎            document.getElementById('c-addr').value = data.addr || "";
-‎        }
-‎
-‎        // LOGIN & SYNC
-‎        window.openLoginModal = () => { document.getElementById('admin-login-modal').classList.remove('hidden'); }
-‎        window.handleLogin = () => {
-‎            if(document.getElementById('admin-pass-input').value === MASTER_PASS) {
-‎                document.getElementById('admin-login-modal').classList.add('hidden');
-‎                document.getElementById('user-view').classList.add('hidden');
-‎                document.getElementById('admin-dashboard-view').classList.remove('hidden');
-‎            } else { alert("ACCESS DENIED"); }
-‎        }
-‎        window.exitDashboard = () => { location.reload(); }
-‎
-‎        setInterval(() => {
-‎            if(!window.dbOnValue) return;
-‎            const ref = window.dbRef(window.db, 'global_products');
-‎            window.dbOnValue(ref, (snap) => {
-‎                const data = snap.val();
-‎                storeData = data || {};
-‎                const grid = document.getElementById('product-grid');
-‎                const adminList = document.getElementById('admin-product-list');
-‎                grid.innerHTML = ""; adminList.innerHTML = "";
-‎                Object.keys(storeData).forEach(key => {
-‎                    const p = storeData[key];
-‎                    grid.innerHTML += `
-‎                        <div onclick="openOrder('${key}')" class="product-card p-2 cursor-pointer text-center">
-‎                            <div class="relative aspect-[4/5] rounded-[12px] overflow-hidden mb-3">
-‎                                <img src="${p.img}" class="w-full h-full object-cover">
-‎                            </div>
-‎                            <p class="text-[8px] text-slate-400 font-bold uppercase tracking-[2px] truncate">${p.name}</p>
-‎                            <p class="text-sky-600 font-extrabold text-xs md:text-sm italic">৳${p.price}</p>
-‎                        </div>
-‎                    `;
-‎                    adminList.innerHTML += `
-‎                        <div class="flex justify-between items-center p-3 bg-slate-50 rounded-xl border">
-‎                            <div class="flex items-center gap-3"><img src="${p.img}" class="w-8 h-8 rounded object-cover"><p class="text-[9px] font-bold uppercase">${p.name}</p></div>
-‎                            <button onclick="removeProduct('${key}')" class="text-red-500"><i class="fas fa-trash-alt"></i></button>
-‎                        </div>
-‎                    `;
-‎                });
-‎            }, { onlyOnce: true });
-‎        }, 2000);
-‎
-‎        window.saveToCloud = () => {
-‎            const name = document.getElementById('p-name').value, price = document.getElementById('p-price').value, file = document.getElementById('p-image-file').files[0];
-‎            if(!name || !price || !file) return alert("Fields Required");
-‎            const btn = document.getElementById('save-btn');
-‎            btn.innerText = "Processing...";
-‎            const reader = new FileReader();
-‎            reader.readAsDataURL(file);
-‎            reader.onload = () => {
-‎                window.dbPush(window.dbRef(window.db, 'global_products'), { name, price, img: reader.result });
-‎                alert("Z E N V Y Item Published!");
-‎                location.reload();
-‎            }
-‎        }
-‎        window.removeProduct = (key) => { if(confirm("Delete item?")) window.dbRemove(window.dbRef(window.db, 'global_products/' + key)); }
-‎
-‎        // ORDER
-‎        window.openOrder = (key) => {
-‎            selectedP = storeData[key];
-‎            document.getElementById('order-info').innerHTML = `
-‎                <img src="${selectedP.img}" class="w-16 h-16 rounded-xl object-cover shadow-lg border-2 border-sky-400">
-‎                <div class="text-left text-xs"><p class="font-bold uppercase tracking-widest">${selectedP.name}</p><p class="text-sky-600 font-bold">৳${selectedP.price}</p></div>
-‎            `;
-‎            document.getElementById('order-modal').classList.remove('hidden');
-‎        }
-‎        window.closeModal = () => { document.getElementById('order-modal').classList.add('hidden'); }
-‎        window.confirmWhatsApp = () => {
-‎            const n = document.getElementById('c-name').value, a = document.getElementById('c-addr').value, ph = document.getElementById('c-phone').value;
-‎            if(!n || !a || !ph) return alert("Please fill profile/info!");
-‎            const msg = `আসসালামু আলাইকুম Z E N V Y!\nপণ্য: ${selectedP.name}\nমূল্য: ৳${selectedP.price}\n\n-- গ্রাহকের তথ্য --\nনাম: ${n}\nঠিকানা: ${a}\nমোবাইল: ${ph}`;
-‎            window.location.href = `https://api.whatsapp.com/send?phone=${WHATSAPP}&text=${encodeURIComponent(msg)}`;
-‎        }
-‎
-‎        updateProfileUI();
-‎    </script>
-‎</body>
-‎</html>
-‎
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Z E N V Y | Premium Experience</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyALuGjVy2_L-ufS785MzFPmde0Po2HTxD8",
+            authDomain: "foysal-store.firebaseapp.com",
+            projectId: "foysal-store",
+            storageBucket: "foysal-store.firebasestorage.app",
+            messagingSenderId: "509319347526",
+            appId: "1:509319347526:web:7958b038fc9b2ad1953947",
+            databaseURL: "https://foysal-store-default-rtdb.firebaseio.com"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        window.db = getDatabase(app);
+        window.dbRef = ref; window.dbPush = push; window.dbOnValue = onValue; window.dbRemove = remove;
+    </script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&family=Hind+Siliguri:wght@400;700&display=swap');
+        body { font-family: 'Plus Jakarta Sans', 'Hind Siliguri', sans-serif; background-color: #f8fafc; }
+        
+        /* ZENVY Theme Colors */
+        :root { --zenvy-cyan: #4db8ff; --zenvy-dark: #000000; }
+        
+        .hero-bg { background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1600'); background-size: cover; background-position: center; height: 300px; display: flex; align-items: center; justify-content: center; }
+        .product-card { border-radius: 18px; transition: 0.3s ease; background: #fff; border: 1px solid #f1f5f9; }
+        .product-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+        .glass-nav { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(12px); }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        
+        /* Custom Button */
+        .btn-zenvy { background-color: var(--zenvy-dark); color: white; transition: 0.3s; }
+        .btn-zenvy:hover { background-color: var(--zenvy-cyan); }
+    </style>
+</head>
+<body class="text-slate-900">
+
+    <!-- Navbar -->
+    <nav class="glass-nav border-b sticky top-0 z-50 py-3 px-5 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+            <!-- logo based on your image -->
+            <div class="w-10 h-10 bg-black rounded-lg flex items-center justify-center border border-sky-400">
+                <span class="text-sky-400 font-bold text-xl italic">Z</span>
+            </div>
+            <h1 class="text-xl font-extrabold tracking-[3px] uppercase">Z E N V Y</h1>
+        </div>
+        
+        <div class="flex items-center gap-3">
+            <!-- User Profile -->
+            <button onclick="openProfile()" class="w-9 h-9 rounded-full bg-slate-100 overflow-hidden border border-slate-200 flex items-center justify-center text-slate-500 shadow-sm transition">
+                <img id="nav-user-img" src="" class="w-full h-full object-cover hidden">
+                <i id="nav-user-icon" class="fas fa-user text-sm"></i>
+            </button>
+            <!-- Admin -->
+            <button onclick="openLoginModal()" class="w-9 h-9 rounded-lg bg-black text-white flex items-center justify-center shadow-sm">
+                <i class="fas fa-shield-alt text-xs"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Website View -->
+    <div id="user-view">
+        <header class="hero-bg text-white text-center px-6">
+            <div class="max-w-xl">
+                <h1 class="text-3xl md:text-5xl font-bold mb-3 tracking-tighter uppercase">Elite Luxury</h1>
+                <p class="text-sky-400 text-[10px] font-bold uppercase tracking-[5px] opacity-90">Experience Z E N V Y</p>
+            </div>
+        </header>
+
+        <main class="container mx-auto px-4 py-10" id="shop">
+            <div class="flex items-center gap-2 mb-8">
+                <div class="h-6 w-1 bg-sky-500"></div>
+                <h2 class="text-xl font-bold uppercase tracking-widest">New Arrivals</h2>
+            </div>
+            <div id="product-grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-6">
+                <!-- Products load globally -->
+            </div>
+        </main>
+
+        <footer class="bg-black text-white py-16 text-center">
+            <h2 class="text-2xl font-bold tracking-[6px] mb-6">Z E N V Y</h2>
+            <div class="flex justify-center gap-8 mb-8 text-xl text-slate-400">
+                <a href="#" class="hover:text-sky-400 transition"><i class="fab fa-facebook"></i></a>
+                <a href="#" class="hover:text-sky-400 transition"><i class="fab fa-instagram"></i></a>
+                <a href="https://wa.me/8801963792670" class="hover:text-sky-400 transition"><i class="fab fa-whatsapp"></i></a>
+            </div>
+            <p class="text-[9px] text-slate-500 font-bold tracking-widest uppercase">© 2024 ZENVY INTERNATIONAL GROUP</p>
+        </footer>
+    </div>
+
+    <!-- User Profile Modal -->
+    <div id="profile-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden z-[250] flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-sm rounded-[30px] p-8 shadow-2xl relative">
+            <button onclick="closeProfile()" class="absolute top-5 right-5 text-xl text-slate-300 hover:text-red-500">&times;</button>
+            <h2 class="text-xl font-bold mb-6 italic border-b pb-2">User Profile</h2>
+            <div class="space-y-4">
+                <div class="flex flex-col items-center">
+                    <label for="u-img-input" class="relative w-20 h-20 rounded-full bg-slate-100 border-2 border-sky-500 p-1 cursor-pointer">
+                        <img id="u-preview-img" src="" class="w-full h-full rounded-full object-cover hidden">
+                        <div id="u-placeholder" class="w-full h-full rounded-full flex items-center justify-center text-slate-400"><i class="fas fa-camera"></i></div>
+                    </label>
+                    <input type="file" id="u-img-input" accept="image/*" class="hidden" onchange="previewUserImg(event)">
+                </div>
+                <input type="text" id="u-name" placeholder="Full Name" class="w-full p-3 bg-slate-50 border rounded-xl outline-none text-sm">
+                <input type="number" id="u-phone" placeholder="Phone Number" class="w-full p-3 bg-slate-50 border rounded-xl outline-none text-sm">
+                <textarea id="u-addr" placeholder="Delivery Address" class="w-full p-3 bg-slate-50 border rounded-xl outline-none text-sm h-20"></textarea>
+                <button onclick="saveUserProfile()" class="w-full btn-zenvy py-3 rounded-xl font-bold shadow-lg">Save Profile</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Modal -->
+    <div id="order-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md hidden z-[110] flex items-end sm:items-center justify-center p-0 sm:p-4">
+        <div class="bg-white w-full max-w-md rounded-t-[40px] sm:rounded-[30px] p-6 shadow-2xl overflow-y-auto max-h-[90vh]">
+            <button onclick="closeModal()" class="float-right text-xl text-slate-300">&times;</button>
+            <h3 class="font-bold text-lg mb-4 uppercase tracking-tighter text-sky-600">Checkout</h3>
+            <div id="order-info" class="mb-5 p-3 bg-slate-50 rounded-xl flex gap-4 items-center border border-sky-100"></div>
+            <div class="space-y-3">
+                <input type="text" id="c-name" placeholder="আপনার নাম" class="w-full p-3 bg-slate-50 border rounded-xl outline-none text-sm">
+                <input type="text" id="c-addr" placeholder="ঠিকানা" class="w-full p-3 bg-slate-50 border rounded-xl outline-none text-sm">
+                <input type="number" id="c-phone" placeholder="মোবাইল নাম্বার" class="w-full p-3 bg-slate-50 border rounded-xl outline-none text-sm">
+                <button onclick="confirmWhatsApp()" class="w-full bg-[#25D366] text-white py-4 rounded-xl font-extrabold flex items-center justify-center gap-2 shadow-lg">
+                    <i class="fab fa-whatsapp text-2xl"></i> CONFIRM ORDER
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Panel (Pass: Foysal12@#) -->
+    <div id="admin-login-modal" class="fixed inset-0 bg-black/90 backdrop-blur-xl hidden z-[300] flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-sm rounded-[35px] p-10 shadow-2xl text-center">
+            <h2 class="text-xl font-bold mb-6 uppercase tracking-[4px]">Security</h2>
+            <input type="password" id="admin-pass-input" placeholder="••••••••" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl mb-6 outline-none text-center font-bold tracking-[0.5em] focus:ring-1 ring-sky-500">
+            <button onclick="handleLogin()" class="w-full bg-black text-white py-3 rounded-xl font-bold shadow-lg uppercase text-xs">Verify</button>
+        </div>
+    </div>
+
+    <div id="admin-dashboard-view" class="hidden min-h-screen bg-slate-100">
+        <div class="bg-black text-white p-4 flex justify-between items-center shadow-xl">
+            <h2 class="text-sm font-bold tracking-[3px] uppercase text-sky-400">Inventory Dashboard</h2>
+            <button onclick="exitDashboard()" class="bg-red-600 text-white px-4 py-1.5 rounded-lg text-[10px] font-bold uppercase">Exit</button>
+        </div>
+        <div class="container mx-auto px-4 py-6 max-w-5xl grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-white">
+                <h3 class="text-[10px] font-bold text-slate-400 uppercase mb-4 tracking-widest">Add New Elite Product</h3>
+                <input type="text" id="p-name" placeholder="Product Name" class="w-full p-3 bg-slate-50 border rounded-xl mb-3 text-sm">
+                <input type="number" id="p-price" placeholder="Price (৳)" class="w-full p-3 bg-slate-50 border rounded-xl mb-3 text-sm font-bold">
+                <input type="file" id="p-image-file" accept="image/*" class="w-full p-3 bg-slate-50 rounded-xl text-[10px] border border-dashed border-sky-200 mb-3">
+                <button id="save-btn" onclick="saveToCloud()" class="w-full bg-black text-white py-3 rounded-xl font-bold text-xs uppercase shadow-lg">Publish Globally</button>
+            </div>
+            <div class="md:col-span-2 bg-white p-6 rounded-2xl shadow-sm border border-white min-h-[400px]">
+                <h3 class="text-[10px] font-bold text-slate-400 uppercase mb-4 tracking-widest">Active Stock</h3>
+                <div id="admin-product-list" class="space-y-2"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- WhatsApp Bubble -->
+    <a href="https://wa.me/8801963792670" class="fixed bottom-6 left-6 bg-[#25D366] w-14 h-14 rounded-full flex items-center justify-center text-white text-3xl shadow-2xl z-50 hover:scale-110 transition active:scale-95">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script>
+        const MASTER_PASS = "Foysal12@#";
+        const WHATSAPP = "8801963792670";
+        let storeData = {};
+        let selectedP = null;
+
+        // PROFILE SYSTEM
+        window.openProfile = () => {
+            const data = JSON.parse(localStorage.getItem('zenvy_user')) || {};
+            document.getElementById('u-name').value = data.name || "";
+            document.getElementById('u-phone').value = data.phone || "";
+            document.getElementById('u-addr').value = data.addr || "";
+            if(data.img) {
+                document.getElementById('u-preview-img').src = data.img;
+                document.getElementById('u-preview-img').classList.remove('hidden');
+                document.getElementById('u-placeholder').classList.add('hidden');
+            }
+            document.getElementById('profile-modal').classList.remove('hidden');
+        }
+        window.closeProfile = () => { document.getElementById('profile-modal').classList.add('hidden'); }
+        window.previewUserImg = (e) => {
+            const file = e.target.files[0];
+            const reader = new FileReader();
+            reader.onload = () => {
+                document.getElementById('u-preview-img').src = reader.result;
+                document.getElementById('u-preview-img').classList.remove('hidden');
+                document.getElementById('u-placeholder').classList.add('hidden');
+            }
+            reader.readAsDataURL(file);
+        }
+        window.saveUserProfile = () => {
+            const profile = {
+                name: document.getElementById('u-name').value,
+                phone: document.getElementById('u-phone').value,
+                addr: document.getElementById('u-addr').value,
+                img: document.getElementById('u-preview-img').src
+            };
+            localStorage.setItem('zenvy_user', JSON.stringify(profile));
+            updateProfileUI();
+            alert("Z E N V Y Profile Updated!");
+            closeProfile();
+        }
+        function updateProfileUI() {
+            const data = JSON.parse(localStorage.getItem('zenvy_user')) || {};
+            if(data.img && data.img.startsWith('data:image')) {
+                document.getElementById('nav-user-img').src = data.img;
+                document.getElementById('nav-user-img').classList.remove('hidden');
+                document.getElementById('nav-user-icon').classList.add('hidden');
+            }
+            document.getElementById('c-name').value = data.name || "";
+            document.getElementById('c-phone').value = data.phone || "";
+            document.getElementById('c-addr').value = data.addr || "";
+        }
+
+        // LOGIN & SYNC
+        window.openLoginModal = () => { document.getElementById('admin-login-modal').classList.remove('hidden'); }
+        window.handleLogin = () => {
+            if(document.getElementById('admin-pass-input').value === MASTER_PASS) {
+                document.getElementById('admin-login-modal').classList.add('hidden');
+                document.getElementById('user-view').classList.add('hidden');
+                document.getElementById('admin-dashboard-view').classList.remove('hidden');
+            } else { alert("ACCESS DENIED"); }
+        }
+        window.exitDashboard = () => { location.reload(); }
+
+        setInterval(() => {
+            if(!window.dbOnValue) return;
+            const ref = window.dbRef(window.db, 'global_products');
+            window.dbOnValue(ref, (snap) => {
+                const data = snap.val();
+                storeData = data || {};
+                const grid = document.getElementById('product-grid');
+                const adminList = document.getElementById('admin-product-list');
+                grid.innerHTML = ""; adminList.innerHTML = "";
+                Object.keys(storeData).forEach(key => {
+                    const p = storeData[key];
+                    grid.innerHTML += `
+                        <div onclick="openOrder('${key}')" class="product-card p-2 cursor-pointer text-center">
+                            <div class="relative aspect-[4/5] rounded-[12px] overflow-hidden mb-3">
+                                <img src="${p.img}" class="w-full h-full object-cover">
+                            </div>
+                            <p class="text-[8px] text-slate-400 font-bold uppercase tracking-[2px] truncate">${p.name}</p>
+                            <p class="text-sky-600 font-extrabold text-xs md:text-sm italic">৳${p.price}</p>
+                        </div>
+                    `;
+                    adminList.innerHTML += `
+                        <div class="flex justify-between items-center p-3 bg-slate-50 rounded-xl border">
+                            <div class="flex items-center gap-3"><img src="${p.img}" class="w-8 h-8 rounded object-cover"><p class="text-[9px] font-bold uppercase">${p.name}</p></div>
+                            <button onclick="removeProduct('${key}')" class="text-red-500"><i class="fas fa-trash-alt"></i></button>
+                        </div>
+                    `;
+                });
+            }, { onlyOnce: true });
+        }, 2000);
+
+        window.saveToCloud = () => {
+            const name = document.getElementById('p-name').value, price = document.getElementById('p-price').value, file = document.getElementById('p-image-file').files[0];
+            if(!name || !price || !file) return alert("Fields Required");
+            const btn = document.getElementById('save-btn');
+            btn.innerText = "Processing...";
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+                window.dbPush(window.dbRef(window.db, 'global_products'), { name, price, img: reader.result });
+                alert("Z E N V Y Item Published!");
+                location.reload();
+            }
+        }
+        window.removeProduct = (key) => { if(confirm("Delete item?")) window.dbRemove(window.dbRef(window.db, 'global_products/' + key)); }
+
+        // ORDER
+        window.openOrder = (key) => {
+            selectedP = storeData[key];
+            document.getElementById('order-info').innerHTML = `
+                <img src="${selectedP.img}" class="w-16 h-16 rounded-xl object-cover shadow-lg border-2 border-sky-400">
+                <div class="text-left text-xs"><p class="font-bold uppercase tracking-widest">${selectedP.name}</p><p class="text-sky-600 font-bold">৳${selectedP.price}</p></div>
+            `;
+            document.getElementById('order-modal').classList.remove('hidden');
+        }
+        window.closeModal = () => { document.getElementById('order-modal').classList.add('hidden'); }
+        window.confirmWhatsApp = () => {
+            const n = document.getElementById('c-name').value, a = document.getElementById('c-addr').value, ph = document.getElementById('c-phone').value;
+            if(!n || !a || !ph) return alert("Please fill profile/info!");
+            const msg = `আসসালামু আলাইকুম Z E N V Y!\nপণ্য: ${selectedP.name}\nমূল্য: ৳${selectedP.price}\n\n-- গ্রাহকের তথ্য --\nনাম: ${n}\nঠিকানা: ${a}\nমোবাইল: ${ph}`;
+            window.location.href = `https://api.whatsapp.com/send?phone=${WHATSAPP}&text=${encodeURIComponent(msg)}`;
+        }
+
+        updateProfileUI();
+    </script>
+</body>
+</html>
