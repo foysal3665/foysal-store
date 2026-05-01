@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Z E N V Y | Absolute Luxury</title>
+    <title>Z E N V Y | Premium Luxury Shop</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
@@ -30,156 +30,154 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&family=Hind+Siliguri:wght@400;700&display=swap');
         
-        /* 100% CLEAN BACKGROUND FIX */
-        body { 
-            font-family: 'Plus Jakarta Sans', 'Hind Siliguri', sans-serif; 
-            margin: 0;
-            background-color: #000;
-            background-image: url('https://w0.peakpx.com/wallpaper/406/549/HD-wallpaper-abstract-dark-blue-black-abstract-technology.jpg'); /* আপনার দেওয়া ছবির স্টাইল অনুযায়ী ডাইরেক্ট ক্লিন লিঙ্ক */
-            background-attachment: fixed;
-            background-size: cover;
-            background-position: center;
-            color: #fff;
-            overflow-x: hidden;
-        }
-
-        .glass-nav { background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(25px); border-bottom: 1px solid rgba(255,255,255,0.1); }
+        body { font-family: 'Plus Jakarta Sans', 'Hind Siliguri', sans-serif; background-color: #fcfdfe; }
+        
+        /* Premium Shadows and Glass */
+        .glass-nav { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(15px); border-bottom: 1px solid #f1f5f9; }
+        .hero-gradient { background: linear-gradient(135deg, #000000 0%, #1e293b 100%); }
         
         .product-card { 
-            background: rgba(255, 255, 255, 0.04); 
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 28px; 
-            transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            background: #ffffff; 
+            border: 1px solid #f1f5f9;
+            border-radius: 24px; 
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
         }
-        .product-card:hover { transform: translateY(-10px); border-color: #4db8ff; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6); }
+        .product-card:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); border-color: #0ea5e9; }
         
-        .btn-zenvy { background: #4db8ff; color: #000; font-weight: 800; border-radius: 50px; transition: 0.3s; }
+        .btn-zenvy { background: #0ea5e9; color: #fff; border-radius: 12px; transition: 0.2s; }
+        .btn-zenvy:active { scale: 0.95; }
         
-        .modal-blur { background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(40px); color: white; border: 1px solid rgba(255,255,255,0.1); }
         .no-scrollbar::-webkit-scrollbar { display: none; }
-        .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
     </style>
 </head>
-<body>
+<body class="text-slate-900">
 
-    <!-- Header Navbar -->
-    <nav class="glass-nav sticky top-0 z-50 py-4 px-6 flex justify-between items-center shadow-2xl">
+    <!-- Navbar -->
+    <nav class="glass-nav sticky top-0 z-50 py-3 px-5 flex justify-between items-center">
         <div class="flex items-center gap-3">
-            <div class="w-10 h-10 bg-black rounded-2xl flex items-center justify-center border-2 border-sky-400 shadow-[0_0_20px_rgba(77,184,255,0.5)]">
-                <span class="text-sky-400 font-black text-2xl italic">Z</span>
+            <div class="w-9 h-9 bg-black rounded-lg flex items-center justify-center border border-sky-400">
+                <span class="text-sky-400 font-bold text-lg italic">Z</span>
             </div>
-            <h1 class="text-xl font-bold tracking-[6px] text-white">Z E N V Y</h1>
+            <h1 class="text-lg font-extrabold tracking-[3px] text-slate-900 uppercase">Z E N V Y</h1>
         </div>
         
-        <div class="flex items-center gap-4">
-            <button onclick="openProfile()" class="w-10 h-10 rounded-full border border-white/20 bg-white/5 flex items-center justify-center overflow-hidden hover:scale-110 transition">
+        <div class="flex items-center gap-3">
+            <button onclick="openProfile()" class="w-9 h-9 rounded-full bg-slate-50 border border-slate-100 overflow-hidden flex items-center justify-center text-slate-400">
                 <img id="nav-user-img" src="" class="w-full h-full object-cover hidden">
-                <i id="nav-user-icon" class="fas fa-user text-slate-400"></i>
+                <i id="nav-user-icon" class="fas fa-user text-xs"></i>
             </button>
-            <button onclick="openLoginModal()" class="w-10 h-10 rounded-2xl bg-sky-400 text-black flex items-center justify-center shadow-lg active:scale-90 transition">
-                <i class="fas fa-shield-alt"></i>
+            <button onclick="openLoginModal()" class="w-9 h-9 rounded-lg bg-slate-900 text-white flex items-center justify-center shadow-md">
+                <i class="fas fa-shield-alt text-[10px]"></i>
             </button>
         </div>
     </nav>
 
-    <!-- UI View -->
+    <!-- User View -->
     <div id="user-view">
-        <header class="h-[250px] flex flex-col items-center justify-center text-center px-6">
-            <h1 class="text-5xl md:text-8xl font-black tracking-tighter text-white uppercase italic">ELITE <span class="text-sky-400">LUXE</span></h1>
-            <p class="text-slate-400 text-[10px] font-bold uppercase tracking-[10px] mt-2">Experience Z E N V Y</p>
+        <!-- Hero Section -->
+        <header class="hero-gradient text-white py-12 px-6 text-center">
+            <div class="max-w-xl mx-auto">
+                <span class="inline-block px-3 py-1 rounded-full bg-sky-500/20 text-sky-400 text-[9px] font-bold mb-4 tracking-widest uppercase border border-sky-500/30">Luxe Collection</span>
+                <h1 class="text-4xl md:text-6xl font-bold mb-4 leading-tight italic">Elite Style</h1>
+                <p class="text-slate-400 text-xs md:text-sm tracking-[2px] uppercase opacity-80">Experience Z E N V Y</p>
+            </div>
         </header>
 
-        <main class="container mx-auto px-5 pb-24" id="shop">
+        <!-- Product Grid -->
+        <main class="container mx-auto px-4 py-12" id="shop">
             <div class="flex items-center gap-3 mb-10">
-                <div class="h-6 w-1 bg-sky-400 shadow-[0_0_15px_#4db8ff]"></div>
-                <h2 class="text-xs font-bold uppercase tracking-widest text-slate-200">New Arrivals</h2>
+                <div class="h-6 w-1.5 bg-sky-500 rounded-full"></div>
+                <h2 class="text-lg font-bold uppercase tracking-widest">New Arrivals</h2>
             </div>
             
-            <!-- Luxury Grid -->
-            <div id="product-grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-5 md:gap-10">
-                <!-- Loaded from Firebase -->
+            <div id="product-grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-8">
+                <!-- Products -->
             </div>
         </main>
 
-        <footer class="py-16 text-center border-t border-white/5 opacity-50">
-            <h2 class="text-2xl font-black tracking-[10px] text-white mb-4 italic">Z E N V Y</h2>
-            <p class="text-[9px] font-bold tracking-widest uppercase">International Group © 2024</p>
+        <footer class="bg-white border-t border-slate-100 py-16 text-center">
+            <h2 class="text-xl font-bold tracking-[6px] text-slate-900 mb-6 uppercase">Z E N V Y</h2>
+            <div class="flex justify-center gap-8 mb-8 text-xl text-slate-300">
+                <a href="#" class="hover:text-sky-500 transition"><i class="fab fa-facebook"></i></a>
+                <a href="#" class="hover:text-sky-500 transition"><i class="fab fa-instagram"></i></a>
+                <a href="https://wa.me/8801963792670" class="hover:text-sky-500 transition"><i class="fab fa-whatsapp"></i></a>
+            </div>
+            <p class="text-[9px] text-slate-400 font-bold tracking-widest uppercase italic">© 2024 ZENVY GROUP</p>
         </footer>
     </div>
 
     <!-- Modals -->
     <!-- Order Modal -->
-    <div id="order-modal" class="fixed inset-0 bg-black/90 backdrop-blur-xl hidden z-[110] flex items-end sm:items-center justify-center p-0 sm:p-4">
-        <div class="modal-blur w-full max-w-md rounded-t-[50px] sm:rounded-[40px] p-10 shadow-2xl overflow-y-auto max-h-[95vh]">
-            <button onclick="closeModal()" class="float-right text-2xl text-slate-500">&times;</button>
-            <h3 class="font-black text-xl mb-8 uppercase tracking-tighter text-sky-400 italic text-left">Checkout</h3>
-            <div id="order-info" class="mb-8 p-5 bg-white/5 rounded-[30px] flex gap-5 items-center border border-white/10 shadow-inner"></div>
+    <div id="order-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md hidden z-[110] flex items-end sm:items-center justify-center p-0 sm:p-4">
+        <div class="bg-white w-full max-w-md rounded-t-[40px] sm:rounded-[30px] p-8 shadow-2xl overflow-y-auto max-h-[90vh]">
+            <button onclick="closeModal()" class="float-right text-xl text-slate-300">&times;</button>
+            <h3 class="font-bold text-lg mb-6 uppercase tracking-tighter text-sky-600 italic">Checkout</h3>
+            <div id="order-info" class="mb-6 p-4 bg-slate-50 rounded-2xl flex gap-4 items-center border border-slate-100 shadow-inner"></div>
             <div class="space-y-4">
-                <input type="text" id="c-name" placeholder="আপনার নাম" class="w-full p-5 bg-white/5 border border-white/10 rounded-2xl text-white outline-none focus:border-sky-400">
-                <input type="text" id="c-addr" placeholder="পুরো ঠিকানা" class="w-full p-5 bg-white/5 border border-white/10 rounded-2xl text-white outline-none focus:border-sky-400">
-                <input type="number" id="c-phone" placeholder="মোবাইল নাম্বার" class="w-full p-5 bg-white/5 border border-white/10 rounded-2xl text-white outline-none focus:border-sky-400">
-                <button onclick="confirmWhatsApp()" class="w-full bg-[#25D366] text-white py-6 rounded-3xl font-black flex items-center justify-center gap-4 text-xl shadow-2xl">
-                    <i class="fab fa-whatsapp text-3xl"></i> CONFIRM
+                <input type="text" id="c-name" placeholder="আপনার নাম" class="w-full p-4 bg-slate-50 border border-slate-100 rounded-2xl outline-none focus:ring-2 ring-sky-500">
+                <input type="text" id="c-addr" placeholder="ঠিকানা" class="w-full p-4 bg-slate-50 border border-slate-100 rounded-2xl outline-none focus:ring-2 ring-sky-500">
+                <input type="number" id="c-phone" placeholder="মোবাইল নাম্বার" class="w-full p-4 bg-slate-50 border border-slate-100 rounded-2xl outline-none focus:ring-2 ring-sky-500">
+                <button onclick="confirmWhatsApp()" class="w-full bg-[#25D366] text-white py-4 rounded-2xl font-bold text-lg shadow-xl active:scale-95 transition mt-4">
+                    <i class="fab fa-whatsapp"></i> WhatsApp Order
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- User Profile Modal -->
-    <div id="profile-modal" class="fixed inset-0 bg-black/90 backdrop-blur-xl hidden z-[250] flex items-center justify-center p-4">
-        <div class="modal-blur w-full max-w-sm rounded-[45px] p-10 shadow-2xl relative">
-            <button onclick="closeProfile()" class="absolute top-8 right-8 text-2xl text-slate-500">&times;</button>
-            <h2 class="text-xl font-black mb-8 italic border-b border-white/10 pb-3 text-sky-400 tracking-tighter">My Identity</h2>
-            <div class="space-y-5">
-                <div class="flex flex-col items-center mb-4">
-                    <label for="u-img-input" class="relative w-24 h-24 rounded-[2rem] border-2 border-sky-400 p-1 cursor-pointer overflow-hidden bg-white/5">
-                        <img id="u-preview-img" src="" class="w-full h-full rounded-[1.8rem] object-cover hidden">
-                        <div id="u-placeholder" class="w-full h-full flex items-center justify-center text-sky-400 text-2xl"><i class="fas fa-camera"></i></div>
-                    </label>
-                    <input type="file" id="u-img-input" accept="image/*" class="hidden" onchange="previewUserImg(event)">
-                </div>
-                <input type="text" id="u-name" placeholder="Full Name" class="w-full p-4 bg-white/5 border border-white/10 rounded-2xl text-white outline-none">
-                <input type="number" id="u-phone" placeholder="Phone Number" class="w-full p-4 bg-white/5 border border-white/10 rounded-2xl text-white outline-none">
-                <textarea id="u-addr" placeholder="Address" class="w-full p-4 bg-white/5 border border-white/10 rounded-2xl text-white outline-none h-24"></textarea>
-                <button onclick="saveUserProfile()" class="w-full btn-zenvy py-4 shadow-xl uppercase">SAVE PROFILE</button>
-            </div>
+    <!-- Admin Panel -->
+    <div id="admin-login-modal" class="fixed inset-0 bg-slate-900/90 backdrop-blur-xl hidden z-[300] flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-sm rounded-[40px] p-10 shadow-2xl text-center">
+            <h2 class="text-xl font-bold mb-8 uppercase tracking-[4px] text-slate-800">Admin Login</h2>
+            <input type="password" id="admin-pass-input" placeholder="••••••••" class="w-full p-4 bg-slate-50 border border-slate-100 rounded-xl mb-6 outline-none text-center font-bold tracking-[0.5em] focus:ring-1 ring-sky-500">
+            <button onclick="handleLogin()" class="w-full bg-slate-900 text-white py-3 rounded-xl font-bold uppercase text-xs tracking-widest transition">Verify</button>
+            <button onclick="document.getElementById('admin-login-modal').classList.add('hidden')" class="mt-4 text-slate-400 text-[10px] font-bold uppercase">Cancel</button>
         </div>
     </div>
 
-    <!-- Admin Logic -->
-    <div id="admin-login-modal" class="fixed inset-0 bg-black/98 backdrop-blur-2xl hidden z-[300] flex items-center justify-center p-4">
-        <div class="modal-blur w-full max-w-sm rounded-[45px] p-10 shadow-2xl text-center">
-            <h2 class="text-xl font-bold mb-10 uppercase tracking-[8px] text-white">ACCESS</h2>
-            <input type="password" id="admin-pass-input" placeholder="••••" class="w-full p-5 bg-white/5 border border-white/10 rounded-2xl mb-8 outline-none text-center font-black tracking-[1em] text-sky-400">
-            <button onclick="handleLogin()" class="w-full bg-white text-black py-4 rounded-2xl font-black uppercase text-xs shadow-2xl">Verify</button>
+    <div id="admin-dashboard-view" class="hidden min-h-screen bg-[#f8fafc]">
+        <div class="glass-nav p-4 flex justify-between items-center shadow-md">
+            <h2 class="text-xs font-bold tracking-[2px] uppercase text-sky-600 italic">Inventory Controller</h2>
+            <button onclick="exitDashboard()" class="bg-red-500 text-white px-5 py-1.5 rounded-lg text-[9px] font-bold uppercase">Exit</button>
         </div>
-    </div>
-
-    <div id="admin-dashboard-view" class="hidden min-h-screen bg-black">
-        <div class="glass-nav p-5 flex justify-between items-center shadow-2xl">
-            <h2 class="text-xs font-black tracking-[4px] uppercase text-sky-400 italic">Inventory Controller</h2>
-            <button onclick="exitDashboard()" class="bg-red-500 text-white px-6 py-2 rounded-2xl text-[10px] font-black uppercase">Exit</button>
-        </div>
-        <div class="container mx-auto px-4 py-10 max-w-5xl grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div class="modal-blur p-8 rounded-[40px] shadow-2xl h-fit border border-white/5">
-                <h3 class="text-[10px] font-black text-slate-400 uppercase mb-6 tracking-widest border-b border-white/5 pb-2">Add New Item</h3>
-                <div class="space-y-4">
-                    <input type="text" id="p-name" placeholder="Name" class="w-full p-4 bg-white/5 border border-white/10 rounded-2xl text-white font-bold">
-                    <input type="number" id="p-price" placeholder="Price" class="w-full p-4 bg-white/5 border border-white/10 rounded-2xl text-white font-black">
-                    <input type="file" id="p-image-file" accept="image/*" class="w-full p-4 bg-white/5 border-2 border-dashed border-sky-400 rounded-2xl text-[10px] text-slate-400">
-                    <button id="save-btn" onclick="saveToCloud()" class="w-full bg-sky-400 text-black py-4 rounded-2xl font-black uppercase text-xs shadow-lg">Publish Globally</button>
-                </div>
+        <div class="container mx-auto px-4 py-8 max-w-5xl grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-white p-6 rounded-[25px] shadow-sm border border-slate-100">
+                <h3 class="text-[10px] font-bold text-slate-400 uppercase mb-4 tracking-widest border-b pb-2">Add New Item</h3>
+                <input type="text" id="p-name" placeholder="Name" class="w-full p-3 bg-slate-50 border rounded-xl mb-3 text-sm">
+                <input type="number" id="p-price" placeholder="Price (৳)" class="w-full p-3 bg-slate-50 border rounded-xl mb-3 text-sm font-bold">
+                <input type="file" id="p-image-file" accept="image/*" class="w-full p-3 bg-slate-50 border-2 border-dashed border-sky-100 rounded-xl text-[9px] mb-4">
+                <button id="save-btn" onclick="saveToCloud()" class="w-full bg-sky-500 text-white py-3 rounded-xl font-bold uppercase text-[10px] shadow-lg">Publish Globally</button>
             </div>
-            <div class="lg:col-span-2 modal-blur p-8 rounded-[40px] shadow-2xl border border-white/5 min-h-[500px]">
-                <h3 class="text-[10px] font-black text-slate-400 uppercase mb-6 tracking-widest border-b border-white/5 pb-2">Live Inventory</h3>
+            <div class="md:col-span-2 bg-white p-6 rounded-[25px] shadow-sm border border-slate-100 min-h-[500px]">
+                <h3 class="text-[10px] font-bold text-slate-400 uppercase mb-4 tracking-widest border-b pb-2">Catalog</h3>
                 <div id="admin-product-list" class="space-y-3"></div>
             </div>
         </div>
     </div>
 
-    <!-- WhatsApp Support -->
-    <a href="https://wa.me/8801963792670" class="fixed bottom-10 left-10 bg-[#25D366] w-14 h-14 rounded-full flex items-center justify-center text-white text-3xl shadow-[0_0_40px_rgba(37,211,102,0.5)] z-50 hover:scale-110 active:scale-95 transition">
+    <!-- User Profile Modal -->
+    <div id="profile-modal" class="fixed inset-0 bg-black/60 backdrop-blur-md hidden z-[250] flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-sm rounded-[35px] p-8 shadow-2xl relative">
+            <button onclick="closeProfile()" class="absolute top-6 right-6 text-2xl text-slate-300">&times;</button>
+            <h2 class="text-xl font-bold mb-6 italic border-b pb-2 text-sky-600">My Identity</h2>
+            <div class="space-y-4">
+                <div class="flex flex-col items-center">
+                    <label for="u-img-input" class="relative w-20 h-20 rounded-full border-2 border-sky-400 p-1 cursor-pointer overflow-hidden bg-slate-50 shadow-inner">
+                        <img id="u-preview-img" src="" class="w-full h-full rounded-full object-cover hidden">
+                        <div id="u-placeholder" class="w-full h-full flex items-center justify-center text-slate-300"><i class="fas fa-camera"></i></div>
+                    </label>
+                    <input type="file" id="u-img-input" accept="image/*" class="hidden" onchange="previewUserImg(event)">
+                </div>
+                <input type="text" id="u-name" placeholder="আপনার নাম" class="w-full p-3 bg-slate-50 border rounded-xl outline-none text-sm">
+                <input type="number" id="u-phone" placeholder="মোবাইল" class="w-full p-3 bg-slate-50 border rounded-xl outline-none text-sm">
+                <textarea id="u-addr" placeholder="পুরো ঠিকানা" class="w-full p-3 bg-slate-50 border rounded-xl outline-none text-sm h-20"></textarea>
+                <button onclick="saveUserProfile()" class="w-full btn-zenvy py-3 font-bold shadow-lg shadow-sky-200">Save Data</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Support -->
+    <a href="https://wa.me/8801963792670" class="fixed bottom-8 left-8 bg-[#25D366] w-14 h-14 rounded-full flex items-center justify-center text-white text-3xl shadow-xl z-50 hover:scale-110 active:scale-95 transition">
         <i class="fab fa-whatsapp"></i>
     </a>
 
@@ -189,9 +187,9 @@
         let storeData = {};
         let selectedP = null;
 
-        // PROFILE SYSTEM
+        // USER PROFILE
         window.openProfile = () => {
-            const data = JSON.parse(localStorage.getItem('zenvy_final_user_v2')) || {};
+            const data = JSON.parse(localStorage.getItem('zenvy_user_v5')) || {};
             document.getElementById('u-name').value = data.name || "";
             document.getElementById('u-phone').value = data.phone || "";
             document.getElementById('u-addr').value = data.addr || "";
@@ -214,11 +212,11 @@
         }
         window.saveUserProfile = () => {
             const profile = { name: document.getElementById('u-name').value, phone: document.getElementById('u-phone').value, addr: document.getElementById('u-addr').value, img: document.getElementById('u-preview-img').src };
-            localStorage.setItem('zenvy_final_user_v2', JSON.stringify(profile));
-            updateProfileUI(); alert("Identity Saved!"); closeProfile();
+            localStorage.setItem('zenvy_user_v5', JSON.stringify(profile));
+            updateProfileUI(); alert("Profile Saved!"); closeProfile();
         }
         function updateProfileUI() {
-            const data = JSON.parse(localStorage.getItem('zenvy_final_user_v2')) || {};
+            const data = JSON.parse(localStorage.getItem('zenvy_user_v5')) || {};
             if(data.img && data.img.startsWith('data:image')) {
                 document.getElementById('nav-user-img').src = data.img;
                 document.getElementById('nav-user-img').classList.remove('hidden');
@@ -252,21 +250,19 @@
                 Object.keys(storeData).forEach(key => {
                     const p = storeData[key];
                     grid.innerHTML += `
-                        <div onclick="openOrder('${key}')" class="product-card p-4 cursor-pointer text-center flex flex-col group">
-                            <div class="relative aspect-[1/1.15] rounded-[24px] overflow-hidden mb-5">
-                                <img src="${p.img}" class="w-full h-full object-cover group-hover:scale-110 transition duration-1000">
+                        <div onclick="openOrder('${key}')" class="product-card p-3 cursor-pointer text-center group">
+                            <div class="relative aspect-[1/1.1] rounded-[18px] overflow-hidden mb-4">
+                                <img src="${p.img}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
                             </div>
-                            <div class="px-2">
-                                <h3 class="font-bold text-white text-[11px] md:text-sm tracking-tight truncate uppercase leading-tight mb-2">${p.name}</h3>
-                                <p class="text-sky-400 font-black text-xl italic tracking-tighter">৳${p.price}</p>
-                                <div class="mt-4 w-full bg-white text-black text-[9px] font-black py-3 rounded-2xl uppercase tracking-[3px] opacity-0 group-hover:opacity-100 transition shadow-[0_0_20px_white]">Order Now</div>
-                            </div>
+                            <h3 class="font-bold text-slate-800 text-[11px] md:text-sm tracking-tight truncate uppercase leading-tight mb-1">${p.name}</h3>
+                            <p class="text-sky-600 font-extrabold text-sm md:text-base italic">৳${p.price}</p>
+                            <div class="mt-3 w-full bg-slate-900 text-white text-[9px] font-bold py-2 rounded-xl uppercase opacity-0 group-hover:opacity-100 transition-all">Order Now</div>
                         </div>
                     `;
                     adminList.innerHTML += `
-                        <div class="flex justify-between items-center p-4 bg-white/5 rounded-3xl border border-white/5">
-                            <div class="flex items-center gap-4"><img src="${p.img}" class="w-12 h-12 rounded-xl object-cover"><p class="text-[10px] font-black text-white uppercase">${p.name}</p></div>
-                            <button onclick="removeProduct('${key}')" class="h-10 w-10 text-red-400 bg-white/5 rounded-xl hover:bg-red-500 hover:text-white transition"><i class="fa-solid fa-trash-can"></i></button>
+                        <div class="flex justify-between items-center p-3 bg-white rounded-2xl border border-slate-100 shadow-sm">
+                            <div class="flex items-center gap-3"><img src="${p.img}" class="w-10 h-10 rounded-lg object-cover border"><p class="text-[10px] font-bold text-slate-600 uppercase">${p.name}</p></div>
+                            <button onclick="removeProduct('${key}')" class="text-red-500 h-9 w-9 bg-slate-50 rounded-xl hover:bg-red-500 hover:text-white transition shadow-inner"><i class="fas fa-trash-alt"></i></button>
                         </div>
                     `;
                 });
@@ -276,7 +272,7 @@
         window.saveToCloud = () => {
             const name = document.getElementById('p-name').value, price = document.getElementById('p-price').value, file = document.getElementById('p-image-file').files[0];
             if(!name || !price || !file) return alert("Fill all info!");
-            const btn = document.getElementById('save-btn'); btn.innerText = "Syncing Globally...";
+            const btn = document.getElementById('save-btn'); btn.innerText = "Processing...";
             const reader = new FileReader();
             reader.readAsDataURL(file);
             reader.onload = () => {
@@ -290,16 +286,16 @@
         window.openOrder = (key) => {
             selectedP = storeData[key];
             document.getElementById('order-info').innerHTML = `
-                <img src="${selectedP.img}" class="w-20 h-20 rounded-3xl object-cover shadow-2xl border-2 border-sky-400">
-                <div class="text-left text-white"><p class="font-black uppercase tracking-[2px] text-xs mb-1">${selectedP.name}</p><p class="text-sky-400 font-black text-2xl italic tracking-tighter">৳${selectedP.price}</p></div>
+                <img src="${selectedP.img}" class="w-20 h-20 rounded-2xl object-cover shadow-md border-2 border-sky-400">
+                <div class="text-left"><p class="font-bold text-slate-800 uppercase tracking-widest text-xs mb-1">${selectedP.name}</p><p class="text-sky-600 font-bold text-xl italic tracking-tighter">৳${selectedP.price}</p></div>
             `;
             document.getElementById('order-modal').classList.remove('hidden');
         }
         window.closeModal = () => { document.getElementById('order-modal').classList.add('hidden'); }
         window.confirmWhatsApp = () => {
             const n = document.getElementById('c-name').value, a = document.getElementById('c-addr').value, ph = document.getElementById('c-phone').value;
-            if(!n || !a || !ph) return alert("Complete form!");
-            const msg = `আসসালামু আলাইকুম Z E N V Y!\nপণ্য: ${selectedP.name}\nমূল্য: ৳${selectedP.price}\n\n-- কাস্টমার তথ্য --\nনাম: ${n}\nঠিকানা: ${a}\nমোবাইল: ${ph}`;
+            if(!n || !a || !ph) return alert("Fill info!");
+            const msg = `আসসালামু আলাইকুম Z E N V Y!\nপণ্য: ${selectedP.name}\nমূল্য: ৳${selectedP.price}\n\n-- কাস্টমার --\nনাম: ${n}\nঠিকানা: ${a}\nমোবাইল: ${ph}`;
             window.location.href = `https://api.whatsapp.com/send?phone=${WHATSAPP}&text=${encodeURIComponent(msg)}`;
         }
         updateProfileUI();
