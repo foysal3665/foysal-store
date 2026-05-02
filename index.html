@@ -6,10 +6,31 @@
     <title>Z E N V Y | Premium Luxury Shop</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <!-- Firebase SDK -->
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&family=Hind+Siliguri:wght@400;700&display=swap');
+        body { font-family: 'Plus Jakarta Sans', 'Hind Siliguri', sans-serif; background-color: #fcfdfe; overflow-x: hidden; }
+        .glass-nav { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); border-bottom: 1px solid #f1f5f9; }
+        .hero-gradient { background: #000; position: relative; overflow: hidden; }
+        .hero-circle-1 { position: absolute; top: -50px; right: -50px; width: 250px; height: 250px; background: rgba(14, 165, 233, 0.15); border-radius: 50%; filter: blur(80px); }
+        .product-card { background: #fff; border: 1px solid #f1f5f9; border-radius: 14px; transition: 0.3s ease; }
+        .product-card:hover { transform: translateY(-3px); border-color: #0ea5e9; }
+        .cat-btn-active { background: #000 !important; color: #fff !important; border-color: #000 !important; }
+        .cart-drawer { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        
+        /* Loading Animation */
+        .loader { width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top: 4px solid #0ea5e9; border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body class="text-slate-900">
+
+    <!-- Firebase System (Integrated) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getDatabase, ref, push, set, onValue, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
         const firebaseConfig = {
             apiKey: "AIzaSyALuGjVy2_L-ufS785MzFPmde0Po2HTxD8",
             authDomain: "foysal-store.firebaseapp.com",
@@ -19,24 +40,22 @@
             appId: "1:509319347526:web:7958b038fc9b2ad1953947",
             databaseURL: "https://foysal-store-default-rtdb.firebaseio.com"
         };
+
         const app = initializeApp(firebaseConfig);
-        window.db = getDatabase(app);
-        window.dbRef = ref; window.dbPush = push; window.dbSet = set; window.dbOnValue = onValue; window.dbRemove = remove;
+        const db = getDatabase(app);
+
+        // Global Setup
+        window.firebaseDB = db;
+        window.dbRef = ref;
+        window.dbPush = push;
+        window.dbSet = set;
+        window.dbOnValue = onValue;
+        window.dbRemove = remove;
+
+        // Initialize Store after Firebase is ready
+        setTimeout(() => { initZenvy(); }, 500);
     </script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&family=Hind+Siliguri:wght@400;700&display=swap');
-        body { font-family: 'Plus Jakarta Sans', 'Hind Siliguri', sans-serif; background-color: #fcfdfe; overflow-x: hidden; }
-        .glass-nav { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); border-bottom: 1px solid #f1f5f9; }
-        .hero-gradient { background: #000; position: relative; overflow: hidden; }
-        .hero-circle-1 { position: absolute; top: -50px; right: -50px; width: 250px; height: 250px; background: rgba(14, 165, 233, 0.15); border-radius: 50%; filter: blur(80px); }
-        .product-card { background: #fff; border: 1px solid #f1f5f9; border-radius: 14px; transition: 0.3s ease; }
-        .product-card:hover { transform: translateY(-3px); border-color: #0ea5e9; }
-        .cat-btn-active { background: #000; color: #fff; border-color: #000; shadow: 0 4px 10px rgba(0,0,0,0.2); }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .cart-drawer { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
-    </style>
-</head>
-<body class="text-slate-900">
+
     <!-- Navbar -->
     <nav class="glass-nav sticky top-0 z-50 py-2.5 px-4 flex justify-between items-center shadow-sm">
         <div class="flex items-center gap-2">
@@ -46,152 +65,174 @@
             <h1 class="text-base font-extrabold tracking-[2px] text-slate-900 uppercase">Z E N V Y</h1>
         </div>
         <div class="flex items-center gap-3">
-            <button onclick="window.toggleCart(true)" class="relative w-9 h-9 rounded-full bg-slate-100 flex items-center justify-center text-slate-700">
+            <button onclick="toggleCart(true)" class="relative w-9 h-9 rounded-full bg-slate-100 flex items-center justify-center text-slate-700">
                 <i class="fas fa-shopping-bag text-sm"></i>
                 <span id="cart-count" class="absolute -top-1 -right-1 bg-sky-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full shadow-sm">0</span>
             </button>
-            <button onclick="window.openProfile()" class="w-9 h-9 rounded-full bg-slate-50 border border-slate-100 overflow-hidden flex items-center justify-center text-slate-400">
+            <button onclick="openProfile()" class="w-9 h-9 rounded-full bg-slate-50 border border-slate-100 overflow-hidden flex items-center justify-center text-slate-400">
                 <img id="nav-user-img" src="" class="w-full h-full object-cover hidden">
                 <i id="nav-user-icon" class="fas fa-user text-xs"></i>
             </button>
         </div>
     </nav>
 
-    <!-- Website View -->
     <div id="user-view">
         <header class="hero-gradient text-white py-20 px-6 text-center shadow-2xl">
             <div class="hero-circle-1"></div>
             <div class="relative z-10">
-                <span class="inline-block px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-sky-400 text-[9px] font-bold mb-6 tracking-[0.3em] uppercase backdrop-blur-md">Elite Collection 2024</span>
+                <span class="inline-block px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-sky-400 text-[9px] font-bold mb-6 tracking-[0.3em] uppercase">Elite Collection 2024</span>
                 <h1 class="text-5xl md:text-8xl font-black italic mb-3 uppercase tracking-tighter leading-none text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-white">Elite Luxe</h1>
                 <p class="text-sky-400 text-[11px] font-bold uppercase tracking-[8px] mb-8">Z E N V Y</p>
-                <div class="h-[1px] w-20 bg-sky-400 mx-auto mb-8 shadow-[0_0_10px_rgba(77,184,255,0.8)]"></div>
             </div>
         </header>
 
-        <!-- Search & Categories -->
         <div class="container mx-auto px-4 mt-8 space-y-6 text-center">
             <div class="max-w-md mx-auto relative">
                 <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
-                <input type="text" id="user-search" oninput="window.searchProduct()" placeholder="Search luxury items..." class="w-full pl-10 pr-4 py-3.5 bg-white border border-slate-100 rounded-2xl outline-none text-xs focus:ring-1 ring-sky-500 transition shadow-sm">
+                <input type="text" id="user-search" oninput="searchProduct()" placeholder="Search luxury items..." class="w-full pl-10 pr-4 py-3.5 bg-white border border-slate-100 rounded-2xl outline-none text-xs focus:ring-1 ring-sky-500 transition shadow-sm">
             </div>
-            <div class="flex justify-center gap-2 overflow-x-auto no-scrollbar pb-2 px-2">
-                <button onclick="window.filterCat('All')" class="cat-btn px-5 py-2 rounded-full border border-slate-200 text-[9px] font-bold uppercase tracking-widest transition cat-btn-active" data-cat="All">All</button>
-                <button onclick="window.filterCat('Clothing')" class="cat-btn px-5 py-2 rounded-full border border-slate-200 text-[9px] font-bold uppercase tracking-widest transition" data-cat="Clothing">Clothing</button>
-                <button onclick="window.filterCat('Bracelets')" class="cat-btn px-5 py-2 rounded-full border border-slate-200 text-[9px] font-bold uppercase tracking-widest transition" data-cat="Bracelets">Bracelets</button>
-                <button onclick="window.filterCat('Chain')" class="cat-btn px-5 py-2 rounded-full border border-slate-200 text-[9px] font-bold uppercase tracking-widest transition" data-cat="Chain">Chain</button>
-                <button onclick="window.filterCat('Cosmetics')" class="cat-btn px-5 py-2 rounded-full border border-slate-200 text-[9px] font-bold uppercase tracking-widest transition" data-cat="Cosmetics">Cosmetics</button>
+            <div id="cat-pills" class="flex justify-center gap-2 overflow-x-auto no-scrollbar pb-2 px-2">
+                <button onclick="filterCat('All')" class="cat-btn px-5 py-2 rounded-full border border-slate-200 text-[9px] font-bold uppercase tracking-widest transition cat-btn-active" data-cat="All">All</button>
+                <button onclick="filterCat('Clothing')" class="cat-btn px-5 py-2 rounded-full border border-slate-200 text-[9px] font-bold uppercase tracking-widest transition" data-cat="Clothing">Clothing</button>
+                <button onclick="filterCat('Bracelets')" class="cat-btn px-5 py-2 rounded-full border border-slate-200 text-[9px] font-bold uppercase tracking-widest transition" data-cat="Bracelets">Bracelets</button>
+                <button onclick="filterCat('Chain')" class="cat-btn px-5 py-2 rounded-full border border-slate-200 text-[9px] font-bold uppercase tracking-widest transition" data-cat="Chain">Chain</button>
+                <button onclick="filterCat('Cosmetics')" class="cat-btn px-5 py-2 rounded-full border border-slate-200 text-[9px] font-bold uppercase tracking-widest transition" data-cat="Cosmetics">Cosmetics</button>
             </div>
         </div>
 
-        <main class="container mx-auto px-3 py-10" id="shop">
-            <div id="product-grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3"></div>
+        <main class="container mx-auto px-3 py-10 min-h-[400px]">
+            <!-- Loader -->
+            <div id="loading-spinner" class="flex flex-col items-center justify-center py-20">
+                <div class="loader mb-4"></div>
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Loading ZENVY Collection...</p>
+            </div>
+            <div id="product-grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 hidden"></div>
         </main>
         
-        <footer class="py-16 text-center border-t border-slate-100">
+        <footer class="py-16 text-center border-t">
             <h2 class="text-lg font-black tracking-[4px] text-slate-900 mb-2 uppercase">Z E N V Y</h2>
-            <button onclick="window.openLoginModal()" class="text-[9px] text-slate-300 font-bold uppercase tracking-[2px] hover:text-sky-500 transition pt-4">Admin Console</button>
+            <button onclick="openLoginModal()" class="text-[9px] text-slate-300 font-bold uppercase tracking-[2px] hover:text-sky-500 transition pt-4">Admin Console</button>
         </footer>
     </div>
 
-    <!-- Product Details Modal (New) -->
+    <!-- Product Details Modal -->
     <div id="details-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden z-[120] flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-lg rounded-[30px] overflow-hidden shadow-2xl relative animate-in fade-in zoom-in duration-300">
-            <button onclick="window.closeDetails()" class="absolute top-4 right-4 w-10 h-10 bg-black/10 rounded-full flex items-center justify-center text-xl">&times;</button>
-            <div id="details-content" class="flex flex-col">
-                <!-- Data will load here -->
-            </div>
+        <div class="bg-white w-full max-w-lg rounded-[30px] overflow-hidden shadow-2xl relative">
+            <button onclick="closeDetails()" class="absolute top-4 right-4 w-10 h-10 bg-black/5 rounded-full flex items-center justify-center text-xl">&times;</button>
+            <div id="details-content"></div>
         </div>
     </div>
 
     <!-- Cart Drawer -->
     <div id="cart-drawer" class="fixed inset-0 z-[100] hidden">
-        <div onclick="window.toggleCart(false)" class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
+        <div onclick="toggleCart(false)" class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
         <div class="absolute right-0 top-0 h-full w-full max-w-[320px] bg-white shadow-2xl flex flex-col translate-x-full cart-drawer" id="cart-panel">
-            <div class="p-5 border-b flex justify-between items-center bg-slate-50"><h2 class="font-bold uppercase tracking-widest text-[10px]">Bag</h2><button onclick="window.toggleCart(false)" class="text-slate-400 text-xl">&times;</button></div>
+            <div class="p-5 border-b flex justify-between items-center bg-slate-50"><h2 class="font-bold uppercase tracking-widest text-[10px]">Your Bag</h2><button onclick="toggleCart(false)" class="text-slate-400 text-xl">&times;</button></div>
             <div id="cart-items-list" class="flex-1 overflow-y-auto p-4 space-y-3 no-scrollbar"></div>
-            <div class="p-5 border-t bg-white space-y-4"><div class="flex justify-between font-bold text-sm"><span>Total</span><span class="text-sky-600 font-black">৳<span id="cart-total-price">0</span></span></div><button onclick="window.openCheckout()" class="w-full bg-black text-white py-4 rounded-xl font-bold text-[10px] uppercase shadow-lg">Checkout Now</button></div>
-        </div>
-    </div>
-
-    <!-- Modals (Order, Login, Profile) -->
-    <div id="order-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden z-[150] flex items-end sm:items-center justify-center p-0 sm:p-4">
-        <div class="bg-white w-full max-w-md rounded-t-[35px] sm:rounded-[24px] p-7 shadow-2xl overflow-y-auto max-h-[90vh]">
-            <button onclick="window.closeModal()" class="float-right text-slate-300 text-2xl">&times;</button>
-            <h3 class="font-bold text-xs uppercase tracking-widest text-sky-600 mb-6">Shipping Details</h3>
-            <div id="order-summary-box" class="mb-6 p-4 bg-slate-50 rounded-2xl border border-slate-100 space-y-2 text-xs"></div>
-            <div class="space-y-3">
-                <input type="text" id="c-name" placeholder="Full Name" class="w-full p-3.5 bg-slate-50 border rounded-xl outline-none text-sm"><input type="text" id="c-addr" placeholder="Address" class="w-full p-3.5 bg-slate-50 border rounded-xl outline-none text-sm"><input type="number" id="c-phone" placeholder="Mobile" class="w-full p-3.5 bg-slate-50 border rounded-xl outline-none text-sm">
-                <button onclick="window.confirmWhatsApp()" class="w-full bg-[#25D366] text-white py-4 rounded-xl font-bold shadow-lg active:scale-95 transition mt-3 uppercase text-[10px]">Confirm Order</button>
+            <div class="p-5 border-t bg-white space-y-4 shadow-[0_-10px_20px_rgba(0,0,0,0.02)]">
+                <div class="flex justify-between font-bold text-sm"><span>Total</span><span class="text-sky-600 font-black">৳<span id="cart-total-price">0</span></span></div>
+                <button onclick="openCheckout()" class="w-full bg-black text-white py-4 rounded-xl font-bold text-[10px] uppercase shadow-lg">Checkout Now</button>
             </div>
         </div>
     </div>
 
+    <!-- Order Modal -->
+    <div id="order-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden z-[150] flex items-end sm:items-center justify-center p-0 sm:p-4">
+        <div class="bg-white w-full max-w-md rounded-t-[35px] sm:rounded-[24px] p-7 shadow-2xl overflow-y-auto max-h-[90vh]">
+            <button onclick="closeModal()" class="float-right text-slate-300 text-2xl hover:text-red-500">&times;</button>
+            <h3 class="font-bold text-xs uppercase tracking-widest text-sky-600 mb-6">Shipping Details</h3>
+            <div id="order-summary-box" class="mb-6 p-4 bg-slate-50 rounded-2xl border border-slate-100 space-y-2 text-[10px]"></div>
+            <div class="space-y-3">
+                <input type="text" id="c-name" placeholder="Full Name" class="w-full p-4 bg-slate-50 border rounded-xl outline-none text-sm">
+                <input type="text" id="c-addr" placeholder="Address" class="w-full p-4 bg-slate-50 border rounded-xl outline-none text-sm">
+                <input type="number" id="c-phone" placeholder="Mobile" class="w-full p-4 bg-slate-50 border rounded-xl outline-none text-sm">
+                <button onclick="confirmWhatsApp()" class="w-full bg-[#25D366] text-white py-4 rounded-xl font-bold shadow-lg mt-3 uppercase text-[10px] tracking-widest">Confirm via WhatsApp</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Panel Dashboard (Same logic, better handling) -->
     <div id="admin-login-modal" class="fixed inset-0 bg-slate-900/95 hidden z-[300] flex items-center justify-center p-4">
         <div class="bg-white w-full max-w-sm rounded-[30px] p-10 shadow-2xl text-center">
             <h2 class="text-lg font-bold mb-6 uppercase text-slate-800 italic underline decoration-sky-500">Console</h2>
-            <input type="password" id="admin-pass-input" placeholder="••••" class="w-full p-4 bg-slate-50 border border-slate-100 rounded-xl mb-6 text-center font-bold tracking-[1em] focus:ring-1 ring-sky-500">
-            <button onclick="window.handleLogin()" class="w-full bg-black text-white py-3 rounded-xl font-bold uppercase text-xs">Login</button>
+            <input type="password" id="admin-pass-input" placeholder="••••" class="w-full p-4 bg-slate-50 border rounded-xl mb-6 text-center font-bold tracking-[1em] focus:ring-1 ring-sky-500">
+            <button onclick="handleLogin()" class="w-full bg-black text-white py-3 rounded-xl font-bold uppercase text-xs">Login</button>
         </div>
     </div>
 
-    <div id="admin-dashboard-view" class="hidden min-h-screen bg-slate-50 text-left">
-        <div class="glass-nav p-4 flex justify-between items-center shadow-sm text-left"><h2 class="text-[10px] font-bold uppercase text-sky-600 italic">Inventory</h2><button onclick="window.exitDashboard()" class="bg-red-500 text-white px-4 py-1.5 rounded-lg text-[9px] font-bold uppercase">Exit</button></div>
+    <div id="admin-dashboard-view" class="hidden min-h-screen bg-slate-50">
+        <div class="glass-nav p-4 flex justify-between items-center"><h2 class="text-[10px] font-bold uppercase text-sky-600">Dashboard</h2><button onclick="exitDashboard()" class="bg-red-500 text-white px-4 py-1.5 rounded-lg text-[9px] font-bold uppercase">Exit</button></div>
         <div class="container mx-auto px-3 py-6 max-w-4xl grid grid-cols-1 md:grid-cols-3 gap-6">
             <div class="bg-white p-6 rounded-2xl shadow-sm h-fit">
-                <h3 id="admin-form-title" class="text-[10px] font-bold text-slate-400 uppercase mb-4 tracking-widest border-b pb-1">Manage Item</h3>
+                <h3 id="admin-form-title" class="text-[10px] font-bold text-slate-400 uppercase mb-4 tracking-widest">Add Product</h3>
                 <input type="text" id="p-name" placeholder="Name" class="w-full p-3 bg-slate-50 border rounded-xl mb-3 text-sm">
                 <input type="number" id="p-price" placeholder="Price" class="w-full p-3 bg-slate-50 border rounded-xl mb-3 text-sm font-bold">
-                <select id="p-cat-select" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl mb-3 text-sm"><option value="Clothing">Clothing</option><option value="Bracelets">Bracelets</option><option value="Chain">Chain</option><option value="Cosmetics">Cosmetics</option></select>
-                <textarea id="p-desc" placeholder="Product Details..." class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl mb-3 text-sm h-20"></textarea>
+                <select id="p-cat-select" class="w-full p-3 bg-slate-50 border rounded-xl mb-3 text-sm"><option value="Clothing">Clothing</option><option value="Bracelets">Bracelets</option><option value="Chain">Chain</option><option value="Cosmetics">Cosmetics</option></select>
+                <textarea id="p-desc" placeholder="Details..." class="w-full p-3 bg-slate-50 border rounded-xl mb-3 text-sm h-20"></textarea>
                 <input type="file" id="p-image-file" accept="image/*" class="w-full p-3 bg-slate-50 rounded-xl text-[9px] mb-4">
-                <button id="save-btn" onclick="window.saveToCloud()" class="w-full bg-black text-white py-3 rounded-xl font-bold uppercase text-[10px]">Publish</button>
-                <button id="cancel-edit-btn" onclick="window.cancelEdit()" class="hidden w-full mt-2 text-slate-400 text-[9px] font-bold underline">Cancel</button>
+                <button id="save-btn" onclick="saveToCloud()" class="w-full bg-black text-white py-3 rounded-xl font-bold uppercase text-[10px]">Publish</button>
+                <button id="cancel-edit-btn" onclick="cancelEdit()" class="hidden w-full mt-2 text-slate-400 text-[9px] font-bold underline">Cancel</button>
             </div>
-            <div class="md:col-span-2 bg-white p-6 rounded-2xl shadow-sm min-h-[400px]">
-                <h3 class="text-[10px] font-bold text-slate-400 uppercase mb-4 tracking-widest border-b pb-2 text-center">Active Catalog</h3>
+            <div class="md:col-span-2 bg-white p-6 rounded-2xl shadow-sm">
                 <div id="admin-product-list" class="space-y-2"></div>
             </div>
         </div>
     </div>
 
+    <!-- Profile Modal -->
     <div id="profile-modal" class="fixed inset-0 bg-black/60 hidden z-[250] flex items-center justify-center p-4">
         <div class="bg-white w-full max-w-sm rounded-[30px] p-8 shadow-2xl relative text-center">
-            <button onclick="window.closeProfile()" class="absolute top-5 right-5 text-xl text-slate-300 hover:text-red-500">&times;</button>
-            <h2 class="text-lg font-bold mb-6 text-sky-600 italic">Profile Identity</h2>
+            <button onclick="closeProfile()" class="absolute top-5 right-5 text-xl text-slate-300">&times;</button>
+            <h2 class="text-lg font-bold mb-6 text-sky-600 italic">Profile</h2>
             <div class="space-y-4">
-                <label for="u-img-input" class="inline-block relative w-20 h-20 rounded-full border-2 border-sky-400 p-1 cursor-pointer overflow-hidden bg-slate-50"><img id="u-preview-img" src="" class="w-full h-full rounded-full object-cover hidden"><div id="u-placeholder" class="w-full h-full flex items-center justify-center text-slate-300"><i class="fas fa-camera text-xl"></i></div><input type="file" id="u-img-input" accept="image/*" class="hidden" onchange="window.previewUserImg(event)"></label>
-                <input type="text" id="u-name" placeholder="Name" class="w-full p-3 bg-slate-50 border rounded-xl text-sm"><input type="number" id="u-phone" placeholder="Mobile" class="w-full p-3 bg-slate-50 border rounded-xl text-sm"><textarea id="u-addr" placeholder="Address" class="w-full p-3 bg-slate-50 border rounded-xl text-sm h-16"></textarea><button onclick="window.saveUserProfile()" class="w-full bg-slate-900 text-white py-3 rounded-xl font-bold uppercase text-xs">Save</button>
+                <label for="u-img-input" class="inline-block relative w-20 h-20 rounded-full border-2 border-sky-400 p-1 cursor-pointer overflow-hidden bg-slate-50">
+                    <img id="u-preview-img" src="" class="w-full h-full rounded-full object-cover hidden">
+                    <div id="u-placeholder" class="w-full h-full flex items-center justify-center text-slate-300"><i class="fas fa-camera text-xl"></i></div>
+                    <input type="file" id="u-img-input" accept="image/*" class="hidden" onchange="previewUserImg(event)">
+                </label>
+                <input type="text" id="u-name" placeholder="Full Name" class="w-full p-3 bg-slate-50 border rounded-xl text-sm"><input type="number" id="u-phone" placeholder="Mobile" class="w-full p-3 bg-slate-50 border rounded-xl text-sm"><textarea id="u-addr" placeholder="Address" class="w-full p-3 bg-slate-50 border rounded-xl text-sm h-16"></textarea>
+                <button onclick="saveUserProfile()" class="w-full bg-slate-900 text-white py-3 rounded-xl font-bold uppercase text-xs">Save</button>
             </div>
         </div>
     </div>
 
-    <!-- WhatsApp Support -->
+    <!-- WhatsApp Support Bubble -->
     <a href="https://wa.me/8801963792670" class="fixed bottom-6 left-6 bg-[#25D366] w-12 h-12 rounded-full flex items-center justify-center text-white text-2xl shadow-xl z-50 active:scale-95 transition hover:scale-110"><i class="fab fa-whatsapp"></i></a>
 
     <script>
         const MASTER_PASS = "Foysal12@#", WHATSAPP = "8801963792670";
         let storeData = {}, cart = JSON.parse(localStorage.getItem('zenvy_bag_v1')) || [], editingKey = null, currentCat = 'All';
 
-        function fetchAndRender() {
+        // THE CORE INITIALIZATION (Crucial for Speed)
+        function initZenvy() {
             if(!window.dbOnValue) return;
-            const ref = window.dbRef(window.db, 'global_products');
-            window.dbOnValue(ref, (snap) => { storeData = snap.val() || {}; applyFilter(); renderAdminList(storeData); }, { onlyOnce: true });
+            const ref = window.dbRef(window.firebaseDB, 'global_products');
+            
+            // Fast loading listener
+            window.dbOnValue(ref, (snap) => {
+                storeData = snap.val() || {};
+                document.getElementById('loading-spinner').classList.add('hidden');
+                document.getElementById('product-grid').classList.remove('hidden');
+                applyFilter();
+                renderAdminList(storeData);
+            });
+            
+            updateCartCount();
+            updateProfileUI();
         }
-        setInterval(fetchAndRender, 3000);
 
         function renderProducts(data) {
             const grid = document.getElementById('product-grid');
             grid.innerHTML = Object.keys(data).map(key => {
                 const p = data[key];
                 return `<div class="product-card p-2 text-center flex flex-col justify-between group">
-                    <div onclick="window.openDetails('${key}')" class="relative overflow-hidden rounded-xl mb-2.5 cursor-pointer">
+                    <div onclick="openDetails('${key}')" class="relative overflow-hidden rounded-xl mb-2.5 cursor-pointer shadow-sm">
                         <img src="${p.img}" class="w-full h-28 md:h-44 object-cover transition-transform duration-500 group-hover:scale-110">
-                        <span class="absolute top-1 right-1 bg-black/60 text-white text-[6px] px-1.5 py-0.5 rounded-full uppercase tracking-tighter">${p.category || 'Elite'}</span>
+                        <span class="absolute top-1 right-1 bg-black/60 text-white text-[6px] px-1.5 py-0.5 rounded-full uppercase tracking-tighter font-bold">${p.category || 'Elite'}</span>
                     </div>
-                    <p onclick="window.openDetails('${key}')" class="text-[7px] text-slate-400 font-bold uppercase truncate px-1 cursor-pointer">${p.name}</p>
+                    <p onclick="openDetails('${key}')" class="text-[7px] text-slate-400 font-bold uppercase truncate px-1 cursor-pointer hover:text-sky-600 transition">${p.name}</p>
                     <p class="text-sky-600 font-extrabold text-[10px] mb-2 italic">৳${p.price}</p>
-                    <button onclick="window.addToCart('${key}')" class="w-full bg-black text-white text-[8px] py-2.5 rounded-lg font-bold uppercase active:scale-95 transition shadow-sm">Add to bag</button>
+                    <button onclick="addToCart('${key}')" class="w-full bg-black text-white text-[8px] py-2.5 rounded-lg font-bold uppercase active:scale-95 transition shadow-sm">Add to bag</button>
                 </div>`;
             }).join('');
         }
@@ -200,40 +241,56 @@
             const p = storeData[key];
             const content = document.getElementById('details-content');
             content.innerHTML = `
-                <img src="${p.img}" class="w-full h-64 object-cover">
+                <img src="${p.img}" class="w-full h-72 object-cover">
                 <div class="p-6 space-y-4">
                     <div class="flex justify-between items-start">
-                        <div>
-                            <span class="text-sky-600 text-[10px] font-black uppercase tracking-widest">${p.category || 'Luxury'}</span>
-                            <h2 class="text-xl font-bold text-slate-900 italic">${p.name}</h2>
-                        </div>
-                        <p class="text-2xl font-black text-slate-900">৳${p.price}</p>
+                        <div><span class="text-sky-600 text-[10px] font-black uppercase tracking-widest">${p.category || 'Luxury'}</span><h2 class="text-xl font-bold text-slate-900 italic">${p.name}</h2></div>
+                        <p class="text-xl font-black text-slate-900">৳${p.price}</p>
                     </div>
-                    <p class="text-slate-500 text-sm leading-relaxed">${p.desc || 'পণ্যটি সম্পর্কে আরও বিস্তারিত তথ্য পেতে আমাদের হোয়াটসঅ্যাপে যোগাযোগ করুন। এটি একটি প্রিমিয়াম কোয়ালিটি পণ্য।'}</p>
-                    <button onclick="window.addToCart('${key}'); window.closeDetails();" class="w-full bg-black text-white py-4 rounded-2xl font-bold uppercase tracking-widest text-xs shadow-xl active:scale-95 transition">Add to Shopping Bag</button>
-                </div>
-            `;
+                    <p class="text-slate-500 text-xs leading-relaxed h-20 overflow-y-auto no-scrollbar">${p.desc || 'পণ্যটি সম্পর্কে বিস্তারিত জানতে আমাদের হোয়াটসঅ্যাপে যোগাযোগ করুন।'}</p>
+                    <button onclick="addToCart('${key}'); closeDetails();" class="w-full bg-black text-white py-4 rounded-2xl font-bold uppercase text-[10px] shadow-xl active:scale-95 transition">Add To Bag</button>
+                </div>`;
             document.getElementById('details-modal').classList.remove('hidden');
         }
         window.closeDetails = () => document.getElementById('details-modal').classList.add('hidden');
 
-        // Remaining logic (Cart, Filter, Admin, Profile)
-        window.filterCat = (cat) => { currentCat = cat; document.querySelectorAll('.cat-btn').forEach(btn => { if(btn.dataset.cat === cat) btn.classList.add('cat-btn-active'); else btn.classList.remove('cat-btn-active'); }); applyFilter(); }
-        function applyFilter() { const filtered = {}; const q = document.getElementById('user-search').value.toLowerCase(); Object.keys(storeData).forEach(key => { const p = storeData[key]; if((currentCat === 'All' || p.category === currentCat) && p.name.toLowerCase().includes(q)) filtered[key] = p; }); renderProducts(filtered); }
+        window.filterCat = (cat) => {
+            currentCat = cat;
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                if(btn.dataset.cat === cat) btn.classList.add('cat-btn-active');
+                else btn.classList.remove('cat-btn-active');
+            });
+            applyFilter();
+        }
+
+        function applyFilter() {
+            const filtered = {};
+            const q = document.getElementById('user-search').value.toLowerCase();
+            Object.keys(storeData).forEach(key => {
+                const p = storeData[key];
+                if((currentCat === 'All' || p.category === currentCat) && p.name.toLowerCase().includes(q)) filtered[key] = p;
+            });
+            renderProducts(filtered);
+        }
+
+        // Cart Actions
         window.toggleCart = (s) => { const d = document.getElementById('cart-drawer'), p = document.getElementById('cart-panel'); if(s) { d.classList.remove('hidden'); setTimeout(() => p.classList.remove('translate-x-full'), 10); } else { p.classList.add('translate-x-full'); setTimeout(() => d.classList.add('hidden'), 400); } renderCart(); }
         window.addToCart = (k) => { const p = storeData[k], e = cart.find(i => i.key === k); if(e) e.qty++; else cart.push({ key: k, name: p.name, price: p.price, img: p.img, qty: 1 }); saveCart(); updateCartCount(); window.toggleCart(true); }
         window.updateQty = (i, d) => { cart[i].qty += d; if(cart[i].qty < 1) cart.splice(i, 1); saveCart(); renderCart(); updateCartCount(); }
-        function renderCart() { const l = document.getElementById('cart-items-list'), t = document.getElementById('cart-total-price'); let tt = 0; l.innerHTML = cart.map((item, idx) => { tt += item.price * item.qty; return `<div class="flex items-center gap-3 p-3 bg-slate-50 rounded-xl border border-slate-100 shadow-sm"><img src="${item.img}" class="w-10 h-10 rounded-lg object-cover"><div class="flex-1 min-w-0"><p class="text-[9px] font-bold truncate">${item.name}</p><p class="text-sky-600 font-bold text-[10px]">৳${item.price}</p></div><div class="flex items-center gap-2"><button onclick="window.updateQty(${idx}, -1)" class="w-5 h-5 bg-white border rounded text-xs">-</button><span class="text-[10px] font-bold">${item.qty}</span><button onclick="window.updateQty(${idx}, 1)" class="w-5 h-5 bg-white border rounded text-xs">+</button></div></div>`; }).join(''); if(cart.length === 0) l.innerHTML = `<p class="text-center text-slate-300 text-[10px] py-10 uppercase tracking-widest italic">Bag is empty</p>`; t.innerText = tt; }
+        function renderCart() { const l = document.getElementById('cart-items-list'), t = document.getElementById('cart-total-price'); let tt = 0; l.innerHTML = cart.map((item, idx) => { tt += item.price * item.qty; return `<div class="flex items-center gap-3 p-3 bg-slate-50 rounded-xl border border-slate-100 shadow-sm"><img src="${item.img}" class="w-10 h-10 rounded-lg object-cover shadow-sm"><div class="flex-1 min-w-0"><p class="text-[9px] font-bold truncate">${item.name}</p><p class="text-sky-600 font-bold text-[10px]">৳${item.price}</p></div><div class="flex items-center gap-2"><button onclick="updateQty(${idx}, -1)" class="w-5 h-5 bg-white border rounded text-xs">-</button><span class="text-[10px] font-bold">${item.qty}</span><button onclick="updateQty(${idx}, 1)" class="w-5 h-5 bg-white border rounded text-xs">+</button></div></div>`; }).join(''); if(cart.length === 0) l.innerHTML = `<p class="text-center text-slate-300 text-[10px] py-10 uppercase tracking-widest italic">Bag is empty</p>`; t.innerText = tt; }
         function saveCart() { localStorage.setItem('zenvy_bag_v1', JSON.stringify(cart)); }
         function updateCartCount() { document.getElementById('cart-count').innerText = cart.length; }
-        window.openCheckout = () => { if(cart.length === 0) return alert("Bag is empty!"); window.toggleCart(false); const s = document.getElementById('order-summary-box'); let tt = 0; s.innerHTML = cart.map(i => { tt += i.price * i.qty; return `<div class="flex justify-between border-b pb-1"><span>${i.name} (x${i.qty})</span><span>৳${i.price * i.qty}</span></div>`; }).join(''); s.innerHTML += `<div class="flex justify-between font-black text-sky-600 pt-2 uppercase text-xs"><span>Total:</span><span>৳${tt}</span></div>`; document.getElementById('order-modal').classList.remove('hidden'); }
-        window.confirmWhatsApp = () => { const n = document.getElementById('c-name').value.trim(), a = document.getElementById('c-addr').value.trim(), ph = document.getElementById('c-phone').value.trim(); if(!n || !a || !ph) return alert("Fill form!"); let t = cart.map(i => `- ${i.name} (x${i.qty}) = ৳${i.price * i.qty}`).join('\n'), tt = cart.reduce((s, i) => s + (i.price * i.qty), 0); const msg = `আসসালামু আলাইকুম Z E N V Y!\n\n*Order List:*\n${t}\n\n*Total: ৳${tt}*\n\n-- Customer --\nName: ${n}\nAddress: ${a}\nMobile: ${ph}`; window.location.href = `https://api.whatsapp.com/send?phone=${WHATSAPP}&text=${encodeURIComponent(msg)}`; cart = []; saveCart(); updateCartCount(); window.closeModal(); }
+
+        window.openCheckout = () => { if(cart.length === 0) return alert("Bag is empty!"); toggleCart(false); const s = document.getElementById('order-summary-box'); let tt = 0; s.innerHTML = cart.map(i => { tt += i.price * i.qty; return `<div class="flex justify-between border-b pb-1"><span>${i.name} (x${i.qty})</span><span>৳${i.price * i.qty}</span></div>`; }).join(''); s.innerHTML += `<div class="flex justify-between font-black text-sky-600 pt-2 uppercase text-xs"><span>Total:</span><span>৳${tt}</span></div>`; document.getElementById('order-modal').classList.remove('hidden'); }
+        window.confirmWhatsApp = () => { const n = document.getElementById('c-name').value.trim(), a = document.getElementById('c-addr').value.trim(), ph = document.getElementById('c-phone').value.trim(); if(!n || !a || !ph) return alert("Please fill form!"); let t = cart.map(i => `- ${i.name} (x${i.qty}) = ৳${i.price * i.qty}`).join('\n'), tt = cart.reduce((s, i) => s + (i.price * i.qty), 0); const msg = `নতুন অর্ডার (Z E N V Y)!\n\n*লিস্ট:*\n${t}\n\n*মোট দাম: ৳${tt}*\n\n-- কাস্টমার --\nনাম: ${n}\nঠিকানা: ${a}\nমোবাইল: ${ph}`; window.location.href = `https://api.whatsapp.com/send?phone=${WHATSAPP}&text=${encodeURIComponent(msg)}`; cart = []; saveCart(); updateCartCount(); closeModal(); }
+
+        // Admin Actions
         window.searchProduct = applyFilter;
-        window.renderAdminList = (d) => { const l = document.getElementById('admin-product-list'); l.innerHTML = Object.keys(d).map(k => `<div class="flex justify-between items-center p-3 bg-white rounded-xl border mb-2"><div class="flex items-center gap-3"><img src="${d[k].img}" class="w-8 h-8 rounded object-cover border"><div class="text-left text-[9px] font-bold uppercase truncate w-24 text-slate-700">${d[k].name}</div></div><div class="flex gap-2"><button onclick="window.editProduct('${k}')" class="text-blue-500 px-2 hover:scale-110"><i class="fas fa-edit"></i></button><button onclick="window.removeProduct('${k}')" class="text-red-500 px-2 hover:scale-110"><i class="fas fa-trash-alt"></i></button></div></div>`).join(''); }
-        window.saveToCloud = () => { const n = document.getElementById('p-name').value, p = document.getElementById('p-price').value, c = document.getElementById('p-cat-select').value, d = document.getElementById('p-desc').value, f = document.getElementById('p-image-file').files[0], btn = document.getElementById('save-btn'); if(!n || !p) return alert("Fill Name/Price"); btn.innerText = "Syncing..."; const proc = (img) => { const o = { name: n, price: Number(p), category: c, desc: d, img: img || (editingKey ? storeData[editingKey].img : "") }; if(editingKey) window.dbSet(window.dbRef(window.db, 'global_products/' + editingKey), o); else window.dbPush(window.dbRef(window.db, 'global_products'), o); window.cancelEdit(); fetchAndRender(); }; if(f) { const r = new FileReader(); r.onload = () => proc(r.result); r.readAsDataURL(f); } else proc(); }
-        window.editProduct = (k) => { editingKey = k; const p = storeData[k]; document.getElementById('p-name').value = p.name; document.getElementById('p-price').value = p.price; document.getElementById('p-cat-select').value = p.category || "Clothing"; document.getElementById('p-desc').value = p.desc || ""; document.getElementById('admin-form-title').innerText = "Edit Mode"; document.getElementById('save-btn').innerText = "Update"; document.getElementById('cancel-edit-btn').classList.remove('hidden'); }
-        window.cancelEdit = () => { editingKey = null; document.getElementById('p-name').value = ""; document.getElementById('p-price').value = ""; document.getElementById('p-desc').value = ""; document.getElementById('admin-form-title').innerText = "Add Item"; document.getElementById('save-btn').innerText = "Publish"; document.getElementById('cancel-edit-btn').classList.add('hidden'); }
-        window.removeProduct = (k) => { if(confirm("Delete item?")) window.dbRemove(window.dbRef(window.db, 'global_products/' + k)); }
+        window.renderAdminList = (d) => { const l = document.getElementById('admin-product-list'); l.innerHTML = Object.keys(d).map(k => `<div class="flex justify-between items-center p-3 bg-white rounded-xl border mb-2 shadow-sm"><div class="flex items-center gap-3"><img src="${d[k].img}" class="w-8 h-8 rounded object-cover border"><div class="text-left text-[9px] font-bold uppercase truncate w-24 text-slate-700">${d[k].name}</div></div><div class="flex gap-2"><button onclick="editProduct('${k}')" class="text-blue-500 px-2"><i class="fas fa-edit"></i></button><button onclick="removeProduct('${k}')" class="text-red-500 px-2"><i class="fas fa-trash-alt"></i></button></div></div>`).join(''); }
+        window.saveToCloud = () => { const n = document.getElementById('p-name').value, p = document.getElementById('p-price').value, c = document.getElementById('p-cat-select').value, d = document.getElementById('p-desc').value, f = document.getElementById('p-image-file').files[0], btn = document.getElementById('save-btn'); if(!n || !p) return alert("Fill Name/Price"); btn.innerText = "Syncing..."; const proc = (img) => { const o = { name: n, price: Number(p), category: c, desc: d, img: img || (editingKey ? storeData[editingKey].img : "") }; if(editingKey) window.dbSet(window.dbRef(window.firebaseDB, 'global_products/' + editingKey), o); else window.dbPush(window.dbRef(window.firebaseDB, 'global_products'), o); cancelEdit(); }; if(f) { const r = new FileReader(); r.onload = () => proc(r.result); r.readAsDataURL(f); } else proc(); }
+        window.editProduct = (k) => { editingKey = k; const p = storeData[k]; document.getElementById('p-name').value = p.name; document.getElementById('p-price').value = p.price; document.getElementById('p-cat-select').value = p.category || "Clothing"; document.getElementById('p-desc').value = p.desc || ""; document.getElementById('admin-form-title').innerText = "Editing Mode"; document.getElementById('save-btn').innerText = "Update"; document.getElementById('cancel-edit-btn').classList.remove('hidden'); }
+        window.cancelEdit = () => { editingKey = null; document.getElementById('p-name').value = ""; document.getElementById('p-price').value = ""; document.getElementById('p-desc').value = ""; document.getElementById('admin-form-title').innerText = "Add New Item"; document.getElementById('save-btn').innerText = "Publish"; document.getElementById('cancel-edit-btn').classList.add('hidden'); }
+        window.removeProduct = (k) => { if(confirm("Delete item?")) window.dbRemove(window.dbRef(window.firebaseDB, 'global_products/' + k)); }
         window.openLoginModal = () => document.getElementById('admin-login-modal').classList.remove('hidden');
         window.handleLogin = () => { if(document.getElementById('admin-pass-input').value === MASTER_PASS) { document.getElementById('admin-login-modal').classList.add('hidden'); document.getElementById('user-view').classList.add('hidden'); document.getElementById('admin-dashboard-view').classList.remove('hidden'); } else alert("DENIED"); }
         window.exitDashboard = () => location.reload();
@@ -241,9 +298,8 @@
         window.openProfile = () => { const d = JSON.parse(localStorage.getItem('zenvy_user_profile')) || {}; document.getElementById('u-name').value = d.name || ""; document.getElementById('u-phone').value = d.phone || ""; document.getElementById('u-addr').value = d.addr || ""; if(d.img) { document.getElementById('u-preview-img').src = d.img; document.getElementById('u-preview-img').classList.remove('hidden'); document.getElementById('u-placeholder').classList.add('hidden'); } document.getElementById('profile-modal').classList.remove('hidden'); }
         window.closeProfile = () => document.getElementById('profile-modal').classList.add('hidden');
         window.previewUserImg = (e) => { const r = new FileReader(); r.onload = () => { document.getElementById('u-preview-img').src = r.result; document.getElementById('u-preview-img').classList.remove('hidden'); document.getElementById('u-placeholder').classList.add('hidden'); }; r.readAsDataURL(e.target.files[0]); }
-        window.saveUserProfile = () => { const o = { name: document.getElementById('u-name').value, phone: document.getElementById('u-phone').value, addr: document.getElementById('u-addr').value, img: document.getElementById('u-preview-img').src }; localStorage.setItem('zenvy_user_profile', JSON.stringify(o)); updateProfileUI(); alert("Identity Saved!"); window.closeProfile(); }
+        window.saveUserProfile = () => { const o = { name: document.getElementById('u-name').value, phone: document.getElementById('u-phone').value, addr: document.getElementById('u-addr').value, img: document.getElementById('u-preview-img').src }; localStorage.setItem('zenvy_user_profile', JSON.stringify(o)); updateProfileUI(); alert("Identity Saved!"); closeProfile(); }
         function updateProfileUI() { const d = JSON.parse(localStorage.getItem('zenvy_user_profile')) || {}; if(d.img && d.img.startsWith('data:image')) { document.getElementById('nav-user-img').src = d.img; document.getElementById('nav-user-img').classList.remove('hidden'); document.getElementById('nav-user-icon').classList.add('hidden'); } document.getElementById('c-name').value = d.name || ""; document.getElementById('c-phone').value = d.phone || ""; document.getElementById('c-addr').value = d.addr || ""; }
-        updateCartCount(); updateProfileUI(); fetchAndRender();
     </script>
 </body>
 </html>
