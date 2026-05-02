@@ -32,7 +32,9 @@
         body { font-family: 'Plus Jakarta Sans', 'Hind Siliguri', sans-serif; background-color: #fcfdfe; }
         .glass-nav { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); border-bottom: 1px solid #f1f5f9; }
         .hero-gradient { background: linear-gradient(135deg, #000 0%, #1e293b 100%); }
-        .product-card { background: #fff; border: 1px solid #f1f5f9; border-radius: 16px; transition: 0.3s ease; }
+        
+        /* Compact Product Cards */
+        .product-card { background: #fff; border: 1px solid #f1f5f9; border-radius: 14px; transition: 0.3s ease; }
         .product-card:hover { transform: translateY(-3px); border-color: #0ea5e9; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .search-glass { background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(10px); border: 1px solid #e2e8f0; }
@@ -61,30 +63,34 @@
 
     <!-- Website View -->
     <div id="user-view">
-        <header class="hero-gradient text-white py-8 px-6 text-center">
-            <h1 class="text-3xl md:text-5xl font-bold italic mb-1 uppercase tracking-tighter">Elite Luxe</h1>
-            <p class="text-sky-400 text-[9px] font-bold uppercase tracking-[4px]">Z E N V Y</p>
+        <!-- Enlarged Banner (Big Hero) -->
+        <header class="hero-gradient text-white py-20 px-6 text-center shadow-2xl">
+            <h1 class="text-4xl md:text-7xl font-bold italic mb-2 uppercase tracking-tighter">Elite Luxe</h1>
+            <p class="text-sky-400 text-[10px] font-bold uppercase tracking-[6px] mb-4">Z E N V Y</p>
+            <p class="text-slate-400 text-xs md:text-base max-w-md mx-auto opacity-70">Elevate your lifestyle with our premium curated collection.</p>
         </header>
 
-        <!-- Search Section (New) -->
-        <div class="container mx-auto px-4 mt-6">
+        <!-- Search Section -->
+        <div class="container mx-auto px-4 mt-8">
             <div class="max-w-md mx-auto relative">
                 <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
-                <input type="text" id="user-search" oninput="searchProduct()" placeholder="Search luxury items..." class="w-full pl-10 pr-4 py-3 search-glass rounded-2xl outline-none text-xs focus:ring-1 ring-sky-500 transition">
+                <input type="text" id="user-search" oninput="searchProduct()" placeholder="Search luxury items..." class="w-full pl-10 pr-4 py-3 search-glass rounded-2xl outline-none text-xs focus:ring-1 ring-sky-500 transition shadow-sm">
             </div>
         </div>
 
-        <main class="container mx-auto px-3 py-8" id="shop">
+        <main class="container mx-auto px-3 py-10" id="shop">
             <div class="flex items-center gap-2 mb-6 ml-1">
                 <div class="h-4 w-1 bg-sky-500"></div>
-                <h2 class="text-[12px] font-bold uppercase tracking-widest text-slate-500">Curated Catalog</h2>
+                <h2 class="text-[12px] font-bold uppercase tracking-widest text-slate-500">New arrivals</h2>
             </div>
+            
+            <!-- Compact Grid -->
             <div id="product-grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
                 <!-- Products -->
             </div>
         </main>
 
-        <footer class="py-12 text-center opacity-40 text-[8px] font-bold tracking-widest uppercase italic">
+        <footer class="py-16 text-center opacity-40 text-[8px] font-bold tracking-widest uppercase italic">
             © 2024 ZENVY GROUP
         </footer>
     </div>
@@ -105,22 +111,22 @@
                 <button id="cancel-edit-btn" onclick="cancelEdit()" class="hidden w-full mt-2 text-slate-400 text-[9px] font-bold uppercase underline">Cancel Edit</button>
             </div>
             <div class="md:col-span-2 bg-white p-6 rounded-2xl border shadow-sm min-h-[400px]">
-                <h3 class="text-[10px] font-bold text-slate-400 uppercase mb-4 tracking-widest border-b pb-2">Live Inventory</h3>
+                <h3 class="text-[10px] font-bold text-slate-400 uppercase mb-4 tracking-widest border-b pb-2">Catalog</h3>
                 <div id="admin-product-list" class="space-y-2"></div>
             </div>
         </div>
     </div>
 
-    <!-- Modals (Order, Profile, Login - remain same design) -->
+    <!-- Modals -->
     <div id="order-modal" class="fixed inset-0 bg-black/60 backdrop-blur-md hidden z-[110] flex items-end sm:items-center justify-center p-0 sm:p-4">
         <div class="bg-white w-full max-w-md rounded-t-[30px] sm:rounded-[24px] p-6 shadow-2xl overflow-y-auto max-h-[90vh]">
             <button onclick="closeModal()" class="float-right text-xl text-slate-300">&times;</button>
             <h3 class="font-bold text-base mb-4 uppercase tracking-tighter text-sky-600 italic">Secure Order</h3>
             <div id="order-info" class="mb-5 p-3 bg-slate-50 rounded-xl flex gap-3 items-center border"></div>
             <div class="space-y-3">
-                <input type="text" id="c-name" placeholder="আপনার নাম" class="w-full p-3.5 bg-slate-50 border rounded-xl outline-none text-sm">
-                <input type="text" id="c-addr" placeholder="ঠিকানা" class="w-full p-3.5 bg-slate-50 border rounded-xl outline-none text-sm">
-                <input type="number" id="c-phone" placeholder="মোবাইল" class="w-full p-3.5 bg-slate-50 border rounded-xl outline-none text-sm">
+                <input type="text" id="c-name" placeholder="আপনার নাম" class="w-full p-3.5 bg-slate-50 border rounded-xl outline-none focus:ring-1 ring-sky-500 text-sm">
+                <input type="text" id="c-addr" placeholder="ঠিকানা" class="w-full p-3.5 bg-slate-50 border rounded-xl outline-none focus:ring-1 ring-sky-500 text-sm">
+                <input type="number" id="c-phone" placeholder="মোবাইল" class="w-full p-3.5 bg-slate-50 border rounded-xl outline-none focus:ring-1 ring-sky-500 text-sm">
                 <button onclick="confirmWhatsApp()" class="w-full bg-[#25D366] text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg active:scale-95 transition mt-2">
                     <i class="fab fa-whatsapp"></i> কনফার্ম অর্ডার
                 </button>
@@ -142,7 +148,7 @@
             <h2 class="text-lg font-bold mb-6 italic border-b pb-2 text-sky-600">My Identity</h2>
             <div class="space-y-4">
                 <div class="flex flex-col items-center">
-                    <label for="u-img-input" class="relative w-20 h-20 rounded-full border-2 border-sky-400 p-1 cursor-pointer overflow-hidden bg-slate-50">
+                    <label for="u-img-input" class="relative w-20 h-20 rounded-full border-2 border-sky-400 p-1 cursor-pointer overflow-hidden bg-slate-50 shadow-inner">
                         <img id="u-preview-img" src="" class="w-full h-full rounded-full object-cover hidden">
                         <div id="u-placeholder" class="w-full h-full flex items-center justify-center text-slate-300 text-lg"><i class="fas fa-camera"></i></div>
                     </label>
@@ -151,12 +157,12 @@
                 <input type="text" id="u-name" placeholder="Your Name" class="w-full p-3 bg-slate-50 border rounded-xl outline-none text-sm">
                 <input type="number" id="u-phone" placeholder="Mobile" class="w-full p-3 bg-slate-50 border rounded-xl outline-none text-sm">
                 <textarea id="u-addr" placeholder="Address" class="w-full p-3 bg-slate-50 border rounded-xl outline-none text-sm h-16"></textarea>
-                <button onclick="saveUserProfile()" class="w-full bg-slate-900 text-white py-3 rounded-xl font-bold">Save Profile</button>
+                <button onclick="saveUserProfile()" class="w-full bg-slate-900 text-white py-3 rounded-xl font-bold shadow-lg">Save Profile</button>
             </div>
         </div>
     </div>
 
-    <!-- Support Bubble -->
+    <!-- Support -->
     <a href="https://wa.me/8801963792670" class="fixed bottom-6 left-6 bg-[#25D366] w-12 h-12 rounded-full flex items-center justify-center text-white text-2xl shadow-xl z-50 active:scale-95 transition">
         <i class="fab fa-whatsapp"></i>
     </a>
@@ -167,7 +173,6 @@
         let storeData = {};
         let editingKey = null;
 
-        // SYNC & RENDER
         function fetchAndRender() {
             if(!window.dbOnValue) return;
             const ref = window.dbRef(window.db, 'global_products');
@@ -185,15 +190,14 @@
                 const p = data[key];
                 return `
                     <div onclick="openOrder('${key}')" class="product-card p-2 cursor-pointer text-center flex flex-col">
-                        <img src="${p.img}" class="w-full h-32 md:h-44 object-cover rounded-xl mb-2.5">
-                        <p class="text-[8px] text-slate-400 font-bold uppercase truncate px-1">${p.name}</p>
-                        <p class="text-sky-600 font-extrabold text-[11px] italic">৳${p.price}</p>
+                        <img src="${p.img}" class="w-full h-28 md:h-40 object-cover rounded-xl mb-2">
+                        <p class="text-[7px] text-slate-400 font-bold uppercase truncate px-1">${p.name}</p>
+                        <p class="text-sky-600 font-extrabold text-[10px] italic">৳${p.price}</p>
                     </div>
                 `;
             }).join('');
         }
 
-        // SEARCH (New)
         window.searchProduct = () => {
             const q = document.getElementById('user-search').value.toLowerCase();
             const filtered = {};
@@ -203,7 +207,6 @@
             renderProducts(filtered);
         }
 
-        // ADMIN EDIT & SAVE (Updated)
         window.renderAdminList = (data) => {
             const list = document.getElementById('admin-product-list');
             list.innerHTML = Object.keys(data).map(key => {
@@ -222,64 +225,45 @@
 
         window.saveToCloud = () => {
             const name = document.getElementById('p-name').value, price = document.getElementById('p-price').value, file = document.getElementById('p-image-file').files[0];
-            const btn = document.getElementById('save-btn');
-            
             if(!name || !price) return alert("Fill Name and Price!");
-            btn.innerText = "Processing...";
-
+            const btn = document.getElementById('save-btn'); btn.innerText = "Syncing...";
             const processSave = (imgData) => {
                 const product = { name, price, img: imgData || (editingKey ? storeData[editingKey].img : "") };
-                if(editingKey) {
-                    window.dbSet(window.dbRef(window.db, 'global_products/' + editingKey), product);
-                    alert("Updated!");
-                } else {
-                    window.dbPush(window.dbRef(window.db, 'global_products'), product);
-                    alert("Published!");
-                }
-                cancelEdit();
-                fetchAndRender();
+                if(editingKey) { window.dbSet(window.dbRef(window.db, 'global_products/' + editingKey), product); alert("Updated!"); }
+                else { window.dbPush(window.dbRef(window.db, 'global_products'), product); alert("Published!"); }
+                cancelEdit(); fetchAndRender();
             };
-
-            if(file) {
-                const reader = new FileReader();
-                reader.onload = () => processSave(reader.result);
-                reader.readAsDataURL(file);
-            } else processSave();
+            if(file) { const reader = new FileReader(); reader.onload = () => processSave(reader.result); reader.readAsDataURL(file); }
+            else processSave();
         }
 
         window.editProduct = (key) => {
-            editingKey = key;
-            const p = storeData[key];
-            document.getElementById('p-name').value = p.name;
-            document.getElementById('p-price').value = p.price;
-            document.getElementById('admin-form-title').innerText = "Edit Product Mode";
+            editingKey = key; const p = storeData[key];
+            document.getElementById('p-name').value = p.name; document.getElementById('p-price').value = p.price;
+            document.getElementById('admin-form-title').innerText = "Edit Mode";
             document.getElementById('save-btn').innerText = "Update Now";
             document.getElementById('cancel-edit-btn').classList.remove('hidden');
             window.scrollTo(0,0);
         }
 
         window.cancelEdit = () => {
-            editingKey = null;
-            document.getElementById('p-name').value = "";
-            document.getElementById('p-price').value = "";
+            editingKey = null; document.getElementById('p-name').value = ""; document.getElementById('p-price').value = "";
             document.getElementById('admin-form-title').innerText = "Add New Product";
             document.getElementById('save-btn').innerText = "Publish Globally";
             document.getElementById('cancel-edit-btn').classList.add('hidden');
         }
 
         window.removeProduct = (key) => { if(confirm("Delete item?")) window.dbRemove(window.dbRef(window.db, 'global_products/' + key)); }
-
-        // REMAINING LOGIC (Login, Order, Profile)
         window.openLoginModal = () => { document.getElementById('admin-login-modal').classList.remove('hidden'); }
-        window.handleLogin = () => { if(document.getElementById('admin-pass-input').value === MASTER_PASS) { document.getElementById('admin-login-modal').classList.add('hidden'); document.getElementById('user-view').classList.add('hidden'); document.getElementById('admin-dashboard-view').classList.remove('hidden'); } else alert("ACCESS DENIED"); }
+        window.handleLogin = () => { if(document.getElementById('admin-pass-input').value === MASTER_PASS) { document.getElementById('admin-login-modal').classList.add('hidden'); document.getElementById('user-view').classList.add('hidden'); document.getElementById('admin-dashboard-view').classList.remove('hidden'); } else alert("DENIED"); }
         window.exitDashboard = () => location.reload();
         window.openOrder = (key) => { selectedP = storeData[key]; document.getElementById('order-info').innerHTML = `<img src="${selectedP.img}" class="w-12 h-12 rounded-lg object-cover shadow border border-sky-400"><div class="text-left text-xs"><p class="font-bold uppercase tracking-widest truncate w-32">${selectedP.name}</p><p class="text-sky-600 font-bold">৳${selectedP.price}</p></div>`; document.getElementById('order-modal').classList.remove('hidden'); }
         window.closeModal = () => document.getElementById('order-modal').classList.add('hidden');
-        window.confirmWhatsApp = () => { const n = document.getElementById('c-name').value, a = document.getElementById('c-addr').value, ph = document.getElementById('c-phone').value; if(!n || !a || !ph) return alert("Fill form info!"); const msg = ` আসসালামু আলাইকুম Z E N V Y!\nপণ্য: ${selectedP.name}\nমূল্য: ৳${selectedP.price}\n\n-- কাস্টমার --\nনাম: ${n}\nঠিকানা: ${a}\nমোবাইল: ${ph}`; window.location.href = `https://api.whatsapp.com/send?phone=${WHATSAPP}&text=${encodeURIComponent(msg)}`; }
+        window.confirmWhatsApp = () => { const n = document.getElementById('c-name').value, a = document.getElementById('c-addr').value, ph = document.getElementById('c-phone').value; if(!n || !a || !ph) return alert("Fill form!"); const msg = ` আসসালামু আলাইকুম Z E N V Y!\nপণ্য: ${selectedP.name}\nমূল্য: ৳${selectedP.price}\n\n-- কাস্টমার --\nনাম: ${n}\nঠিকানা: ${a}\nমোবাইল: ${ph}`; window.location.href = `https://api.whatsapp.com/send?phone=${WHATSAPP}&text=${encodeURIComponent(msg)}`; }
         window.openProfile = () => { const data = JSON.parse(localStorage.getItem('zenvy_user_final')) || {}; document.getElementById('u-name').value = data.name || ""; document.getElementById('u-phone').value = data.phone || ""; document.getElementById('u-addr').value = data.addr || ""; if(data.img) { document.getElementById('u-preview-img').src = data.img; document.getElementById('u-preview-img').classList.remove('hidden'); document.getElementById('u-placeholder').classList.add('hidden'); } document.getElementById('profile-modal').classList.remove('hidden'); }
         window.closeProfile = () => document.getElementById('profile-modal').classList.add('hidden');
         window.previewUserImg = (e) => { const reader = new FileReader(); reader.onload = () => { document.getElementById('u-preview-img').src = reader.result; document.getElementById('u-preview-img').classList.remove('hidden'); document.getElementById('u-placeholder').classList.add('hidden'); }; reader.readAsDataURL(e.target.files[0]); }
-        window.saveUserProfile = () => { const profile = { name: document.getElementById('u-name').value, phone: document.getElementById('u-phone').value, addr: document.getElementById('u-addr').value, img: document.getElementById('u-preview-img').src }; localStorage.setItem('zenvy_user_final', JSON.stringify(profile)); updateProfileUI(); alert("Updated!"); closeProfile(); }
+        window.saveUserProfile = () => { const profile = { name: document.getElementById('u-name').value, phone: document.getElementById('u-phone').value, addr: document.getElementById('u-addr').value, img: document.getElementById('u-preview-img').src }; localStorage.setItem('zenvy_user_final', JSON.stringify(profile)); updateProfileUI(); alert("Saved!"); closeProfile(); }
         function updateProfileUI() { const data = JSON.parse(localStorage.getItem('zenvy_user_final')) || {}; if(data.img && data.img.startsWith('data:image')) { document.getElementById('nav-user-img').src = data.img; document.getElementById('nav-user-img').classList.remove('hidden'); document.getElementById('nav-user-icon').classList.add('hidden'); } document.getElementById('c-name').value = data.name || ""; document.getElementById('c-phone').value = data.phone || ""; document.getElementById('c-addr').value = data.addr || ""; }
         
         updateProfileUI();
