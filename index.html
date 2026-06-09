@@ -26,6 +26,36 @@
 </head>
 <body class="text-slate-900">
 
+    <!-- Announcement Bar -->
+    <div id="announce-bar" class="w-full bg-gradient-to-r from-sky-600 via-sky-500 to-sky-600 text-white text-[10px] font-bold uppercase tracking-[0.2em] py-2 px-4 flex items-center justify-between overflow-hidden relative z-[60]">
+        <div class="flex-1 overflow-hidden">
+            <div class="announce-scroll flex items-center gap-12 w-max animate-marquee">
+                <span><i class="fas fa-truck mr-1"></i> FREE DELIVERY on orders above ৳500</span>
+                <span>✦</span>
+                <span><i class="fas fa-tag mr-1"></i> NEW COLLECTION 2024 — Shop Now</span>
+                <span>✦</span>
+                <span><i class="fas fa-star mr-1"></i> Premium Quality Guaranteed</span>
+                <span>✦</span>
+                <span><i class="fas fa-headset mr-1"></i> 24/7 WhatsApp Support Available</span>
+                <span>✦</span>
+                <span><i class="fas fa-truck mr-1"></i> FREE DELIVERY on orders above ৳500</span>
+                <span>✦</span>
+                <span><i class="fas fa-tag mr-1"></i> NEW COLLECTION 2024 — Shop Now</span>
+                <span>✦</span>
+                <span><i class="fas fa-star mr-1"></i> Premium Quality Guaranteed</span>
+                <span>✦</span>
+                <span><i class="fas fa-headset mr-1"></i> 24/7 WhatsApp Support Available</span>
+            </div>
+        </div>
+        <button onclick="document.getElementById('announce-bar').style.display='none'" class="ml-3 w-5 h-5 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center shrink-0 transition text-[10px]">&times;</button>
+    </div>
+    <style>
+        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .animate-marquee { animation: marquee 22s linear infinite; }
+        .animate-marquee:hover { animation-play-state: paused; }
+    </style>
+
+
     <!-- Firebase System (Integrated) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
