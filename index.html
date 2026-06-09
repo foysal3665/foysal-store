@@ -26,32 +26,16 @@
 </head>
 <body class="text-slate-900">
 
-    <!-- Announcement Bar -->
-    <div id="announce-bar" class="w-full bg-gradient-to-r from-sky-600 via-sky-500 to-sky-600 text-white text-[10px] font-bold uppercase tracking-[0.2em] py-2 px-4 flex items-center justify-between overflow-hidden relative z-[60]">
+    <!-- Announcement Bar (Firebase-controlled) -->
+    <div id="announce-bar" class="hidden w-full text-white text-[10px] font-bold uppercase tracking-[0.2em] py-2 px-4 flex items-center justify-between overflow-hidden relative z-[60]">
         <div class="flex-1 overflow-hidden">
-            <div class="announce-scroll flex items-center gap-12 w-max animate-marquee">
-                <span><i class="fas fa-truck mr-1"></i> FREE DELIVERY on orders above ৳500</span>
-                <span>✦</span>
-                <span><i class="fas fa-tag mr-1"></i> NEW COLLECTION 2024 — Shop Now</span>
-                <span>✦</span>
-                <span><i class="fas fa-star mr-1"></i> Premium Quality Guaranteed</span>
-                <span>✦</span>
-                <span><i class="fas fa-headset mr-1"></i> 24/7 WhatsApp Support Available</span>
-                <span>✦</span>
-                <span><i class="fas fa-truck mr-1"></i> FREE DELIVERY on orders above ৳500</span>
-                <span>✦</span>
-                <span><i class="fas fa-tag mr-1"></i> NEW COLLECTION 2024 — Shop Now</span>
-                <span>✦</span>
-                <span><i class="fas fa-star mr-1"></i> Premium Quality Guaranteed</span>
-                <span>✦</span>
-                <span><i class="fas fa-headset mr-1"></i> 24/7 WhatsApp Support Available</span>
-            </div>
+            <div id="announce-scroll" class="flex items-center gap-10 w-max animate-marquee"></div>
         </div>
         <button onclick="document.getElementById('announce-bar').style.display='none'" class="ml-3 w-5 h-5 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center shrink-0 transition text-[10px]">&times;</button>
     </div>
     <style>
         @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-        .animate-marquee { animation: marquee 22s linear infinite; }
+        .animate-marquee { animation: marquee 24s linear infinite; }
         .animate-marquee:hover { animation-play-state: paused; }
     </style>
 
@@ -192,7 +176,41 @@
 
     <div id="admin-dashboard-view" class="hidden min-h-screen bg-slate-50">
         <div class="glass-nav p-4 flex justify-between items-center"><h2 class="text-[10px] font-bold uppercase text-sky-600">Dashboard</h2><button onclick="exitDashboard()" class="bg-red-500 text-white px-4 py-1.5 rounded-lg text-[9px] font-bold uppercase">Exit</button></div>
-        <div class="container mx-auto px-3 py-6 max-w-4xl grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="container mx-auto px-3 py-6 max-w-4xl space-y-6">
+
+            <!-- Announcement Settings Card -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-sky-100">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-[10px] font-bold text-sky-600 uppercase tracking-widest flex items-center gap-2"><i class="fas fa-bullhorn"></i> Announcement Bar</h3>
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <span class="text-[9px] font-bold text-slate-400 uppercase">On/Off</span>
+                        <div class="relative">
+                            <input type="checkbox" id="ann-toggle" class="sr-only peer" onchange="toggleAnnouncementBar()">
+                            <div class="w-10 h-5 bg-slate-200 rounded-full peer-checked:bg-sky-500 transition"></div>
+                            <div class="absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow transition peer-checked:translate-x-5"></div>
+                        </div>
+                    </label>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                    <input type="text" id="ann-msg1" placeholder="Message 1 (e.g. FREE DELIVERY above ৳500)" class="w-full p-3 bg-slate-50 border rounded-xl text-[11px] focus:outline-none focus:ring-1 ring-sky-400">
+                    <input type="text" id="ann-msg2" placeholder="Message 2 (e.g. NEW COLLECTION 2024)" class="w-full p-3 bg-slate-50 border rounded-xl text-[11px] focus:outline-none focus:ring-1 ring-sky-400">
+                    <input type="text" id="ann-msg3" placeholder="Message 3 (optional)" class="w-full p-3 bg-slate-50 border rounded-xl text-[11px] focus:outline-none focus:ring-1 ring-sky-400">
+                    <input type="text" id="ann-msg4" placeholder="Message 4 (optional)" class="w-full p-3 bg-slate-50 border rounded-xl text-[11px] focus:outline-none focus:ring-1 ring-sky-400">
+                </div>
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="text-[9px] font-bold text-slate-400 uppercase">Color:</span>
+                    <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="ann-color" value="sky" class="accent-sky-500"> <span class="text-[10px]">Sky Blue</span></label>
+                    <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="ann-color" value="red" class="accent-red-500"> <span class="text-[10px]">Red Sale</span></label>
+                    <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="ann-color" value="green" class="accent-green-500"> <span class="text-[10px]">Green</span></label>
+                    <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="ann-color" value="black" class="accent-slate-900"> <span class="text-[10px]">Black</span></label>
+                </div>
+                <button onclick="saveAnnouncement()" class="bg-sky-500 hover:bg-sky-600 text-white px-6 py-2.5 rounded-xl font-bold text-[10px] uppercase transition shadow-sm">
+                    <i class="fas fa-save mr-1"></i> Save & Publish
+                </button>
+            </div>
+
+            <!-- Product Form + List -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div class="bg-white p-6 rounded-2xl shadow-sm h-fit">
                 <h3 id="admin-form-title" class="text-[10px] font-bold text-slate-400 uppercase mb-4 tracking-widest">Add Product</h3>
                 <input type="text" id="p-name" placeholder="Name" class="w-full p-3 bg-slate-50 border rounded-xl mb-3 text-sm">
@@ -206,8 +224,9 @@
             <div class="md:col-span-2 bg-white p-6 rounded-2xl shadow-sm">
                 <div id="admin-product-list" class="space-y-2"></div>
             </div>
-        </div>
-    </div>
+            </div><!-- end product grid -->
+        </div><!-- end container -->
+    </div><!-- end admin-dashboard-view -->
 
     <!-- Profile Modal -->
     <div id="profile-modal" class="fixed inset-0 bg-black/60 hidden z-[250] flex items-center justify-center p-4">
@@ -249,6 +268,7 @@
             
             updateCartCount();
             updateProfileUI();
+            initAnnouncement();
         }
 
         function renderProducts(data) {
@@ -325,6 +345,68 @@
         window.handleLogin = () => { if(document.getElementById('admin-pass-input').value === MASTER_PASS) { document.getElementById('admin-login-modal').classList.add('hidden'); document.getElementById('user-view').classList.add('hidden'); document.getElementById('admin-dashboard-view').classList.remove('hidden'); } else alert("DENIED"); }
         window.exitDashboard = () => location.reload();
         window.closeModal = () => document.getElementById('order-modal').classList.add('hidden');
+
+        // ── Announcement Bar — Firebase-controlled ──────────────────────
+        const ANN_COLORS = {
+            sky:   'linear-gradient(90deg,#0284c7,#38bdf8,#0284c7)',
+            red:   'linear-gradient(90deg,#dc2626,#f87171,#dc2626)',
+            green: 'linear-gradient(90deg,#16a34a,#4ade80,#16a34a)',
+            black: 'linear-gradient(90deg,#0f172a,#334155,#0f172a)'
+        };
+
+        function initAnnouncement() {
+            if (!window.dbOnValue) return;
+            window.dbOnValue(window.dbRef(window.firebaseDB, 'global_settings/announcement'), (snap) => {
+                const d = snap.val();
+                if (!d) return;
+                applyAnnouncementBar(d);
+                // Populate admin form if in dashboard
+                if (d.msg1) document.getElementById('ann-msg1') && (document.getElementById('ann-msg1').value = d.msg1 || '');
+                if (d.msg2) document.getElementById('ann-msg2') && (document.getElementById('ann-msg2').value = d.msg2 || '');
+                if (d.msg3) document.getElementById('ann-msg3') && (document.getElementById('ann-msg3').value = d.msg3 || '');
+                if (d.msg4) document.getElementById('ann-msg4') && (document.getElementById('ann-msg4').value = d.msg4 || '');
+                const toggle = document.getElementById('ann-toggle');
+                if (toggle) toggle.checked = !!d.active;
+                const colorRadio = document.querySelector(`input[name="ann-color"][value="${d.color||'sky'}"]`);
+                if (colorRadio) colorRadio.checked = true;
+            });
+        }
+
+        function applyAnnouncementBar(d) {
+            const bar = document.getElementById('announce-bar');
+            const scroll = document.getElementById('announce-scroll');
+            if (!bar || !scroll) return;
+            if (!d.active) { bar.classList.add('hidden'); return; }
+            const msgs = [d.msg1, d.msg2, d.msg3, d.msg4].filter(Boolean);
+            if (!msgs.length) { bar.classList.add('hidden'); return; }
+            // Build double set for seamless loop
+            const icons = ['fa-truck', 'fa-tag', 'fa-star', 'fa-headset'];
+            const items = msgs.map((m, i) => `<span><i class="fas ${icons[i%4]} mr-1"></i>${m}</span><span>✦</span>`).join('');
+            scroll.innerHTML = items + items; // doubled for seamless scroll
+            bar.style.background = ANN_COLORS[d.color||'sky'];
+            bar.classList.remove('hidden');
+            bar.style.display = '';
+        }
+
+        window.saveAnnouncement = () => {
+            const color = (document.querySelector('input[name="ann-color"]:checked') || {value:'sky'}).value;
+            const data = {
+                active: document.getElementById('ann-toggle').checked,
+                msg1: document.getElementById('ann-msg1').value.trim(),
+                msg2: document.getElementById('ann-msg2').value.trim(),
+                msg3: document.getElementById('ann-msg3').value.trim(),
+                msg4: document.getElementById('ann-msg4').value.trim(),
+                color
+            };
+            window.dbSet(window.dbRef(window.firebaseDB, 'global_settings/announcement'), data)
+                .then(() => { const btn = document.querySelector('[onclick="saveAnnouncement()"]'); btn.innerText = '✓ Published!'; setTimeout(()=>btn.innerHTML='<i class="fas fa-save mr-1"></i> Save & Publish', 2000); })
+                .catch(() => alert('Save failed. Check Firebase connection.'));
+        };
+
+        window.toggleAnnouncementBar = () => {
+            const isOn = document.getElementById('ann-toggle').checked;
+            window.dbSet(window.dbRef(window.firebaseDB, 'global_settings/announcement/active'), isOn);
+        };
         window.openProfile = () => { const d = JSON.parse(localStorage.getItem('zenvy_user_profile')) || {}; document.getElementById('u-name').value = d.name || ""; document.getElementById('u-phone').value = d.phone || ""; document.getElementById('u-addr').value = d.addr || ""; if(d.img) { document.getElementById('u-preview-img').src = d.img; document.getElementById('u-preview-img').classList.remove('hidden'); document.getElementById('u-placeholder').classList.add('hidden'); } document.getElementById('profile-modal').classList.remove('hidden'); }
         window.closeProfile = () => document.getElementById('profile-modal').classList.add('hidden');
         window.previewUserImg = (e) => { const r = new FileReader(); r.onload = () => { document.getElementById('u-preview-img').src = r.result; document.getElementById('u-preview-img').classList.remove('hidden'); document.getElementById('u-placeholder').classList.add('hidden'); }; r.readAsDataURL(e.target.files[0]); }
