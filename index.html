@@ -100,6 +100,19 @@
             </div>
         </header>
 
+        <!-- Promo Poster Banner (Firebase-controlled) -->
+        <div id="promo-banner" class="hidden w-full relative overflow-hidden cursor-pointer" onclick="document.getElementById('promo-banner').style.opacity='0.7'">
+            <div id="promo-img-wrap" class="w-full max-h-[420px] overflow-hidden flex items-center justify-center bg-black">
+                <img id="promo-img" src="" alt="Promotion" class="w-full object-cover max-h-[420px]">
+            </div>
+            <div id="promo-overlay" class="absolute inset-0 flex flex-col items-center justify-center bg-black/30 pointer-events-none">
+                <span id="promo-badge" class="hidden px-4 py-1 rounded-full bg-sky-500 text-white text-[9px] font-black uppercase tracking-[3px] mb-3 shadow-lg"></span>
+                <h2 id="promo-title" class="hidden text-white text-3xl font-black italic uppercase tracking-tight drop-shadow-xl"></h2>
+                <p id="promo-sub" class="hidden text-sky-200 text-[11px] font-bold uppercase tracking-[5px] mt-2 drop-shadow"></p>
+            </div>
+            <button onclick="event.stopPropagation();document.getElementById('promo-banner').style.display='none'" class="absolute top-3 right-3 w-7 h-7 rounded-full bg-black/50 text-white text-xs flex items-center justify-center hover:bg-black/80 transition">&times;</button>
+        </div>
+
         <div class="container mx-auto px-4 mt-8 space-y-6 text-center">
             <div class="max-w-md mx-auto relative">
                 <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
@@ -209,6 +222,36 @@
                 </button>
             </div>
 
+            <!-- Promo Poster Card -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-purple-100">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-[10px] font-bold text-purple-600 uppercase tracking-widest flex items-center gap-2"><i class="fas fa-image"></i> Promo Poster / Sale Banner</h3>
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <span class="text-[9px] font-bold text-slate-400 uppercase">On/Off</span>
+                        <div class="relative">
+                            <input type="checkbox" id="promo-toggle" class="sr-only peer">
+                            <div class="w-10 h-5 bg-slate-200 rounded-full peer-checked:bg-purple-500 transition"></div>
+                            <div class="absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow transition peer-checked:translate-x-5"></div>
+                        </div>
+                    </label>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
+                    <input type="text" id="promo-badge-text" placeholder='Badge (e.g. 50% OFF)' class="p-3 bg-slate-50 border rounded-xl text-[11px] focus:outline-none focus:ring-1 ring-purple-400">
+                    <input type="text" id="promo-title-text" placeholder='Title (e.g. MEGA SALE)' class="p-3 bg-slate-50 border rounded-xl text-[11px] focus:outline-none focus:ring-1 ring-purple-400">
+                    <input type="text" id="promo-sub-text" placeholder='Subtitle (e.g. Limited Time)' class="p-3 bg-slate-50 border rounded-xl text-[11px] focus:outline-none focus:ring-1 ring-purple-400">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-[9px] font-bold text-slate-400 uppercase mb-2">Upload Poster Image</label>
+                    <input type="file" id="promo-img-file" accept="image/*" class="w-full p-3 bg-slate-50 border rounded-xl text-[9px]">
+                    <div id="promo-preview-thumb" class="hidden mt-3 rounded-xl overflow-hidden border border-purple-200 max-h-40">
+                        <img id="promo-thumb-img" src="" class="w-full object-cover max-h-40">
+                    </div>
+                </div>
+                <button onclick="savePromoBanner()" id="promo-save-btn" class="bg-purple-500 hover:bg-purple-600 text-white px-6 py-2.5 rounded-xl font-bold text-[10px] uppercase transition shadow-sm">
+                    <i class="fas fa-upload mr-1"></i> Publish Banner
+                </button>
+            </div>
+
             <!-- Product Form + List -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div class="bg-white p-6 rounded-2xl shadow-sm h-fit">
@@ -269,6 +312,7 @@
             updateCartCount();
             updateProfileUI();
             initAnnouncement();
+            initPromoBanner();
         }
 
         function renderProducts(data) {
@@ -407,6 +451,92 @@
             const isOn = document.getElementById('ann-toggle').checked;
             window.dbSet(window.dbRef(window.firebaseDB, 'global_settings/announcement/active'), isOn);
         };
+
+        // ── Promo Poster Banner — Firebase-controlled ───────────────────
+        function initPromoBanner() {
+            if (!window.dbOnValue) return;
+            window.dbOnValue(window.dbRef(window.firebaseDB, 'global_settings/promo_banner'), (snap) => {
+                const d = snap.val();
+                if (!d) return;
+                applyPromoBanner(d);
+                // Populate admin form
+                const tf = (id, val) => { const el = document.getElementById(id); if(el) el.value = val || ''; };
+                tf('promo-badge-text', d.badge);
+                tf('promo-title-text', d.title);
+                tf('promo-sub-text', d.subtitle);
+                const tog = document.getElementById('promo-toggle');
+                if (tog) tog.checked = !!d.active;
+                if (d.img) {
+                    const thumb = document.getElementById('promo-preview-thumb');
+                    const thumbImg = document.getElementById('promo-thumb-img');
+                    if (thumb && thumbImg) { thumbImg.src = d.img; thumb.classList.remove('hidden'); }
+                }
+            });
+        }
+
+        function applyPromoBanner(d) {
+            const banner = document.getElementById('promo-banner');
+            const img = document.getElementById('promo-img');
+            if (!banner) return;
+            if (!d.active || !d.img) { banner.classList.add('hidden'); return; }
+            img.src = d.img;
+            const showText = (id, val) => {
+                const el = document.getElementById(id);
+                if (!el) return;
+                if (val) { el.innerText = val; el.classList.remove('hidden'); }
+                else el.classList.add('hidden');
+            };
+            showText('promo-badge', d.badge);
+            showText('promo-title', d.title);
+            showText('promo-sub', d.subtitle);
+            banner.classList.remove('hidden');
+            banner.style.display = '';
+        }
+
+        window.savePromoBanner = () => {
+            const file = document.getElementById('promo-img-file').files[0];
+            const btn = document.getElementById('promo-save-btn');
+            const data = {
+                active: document.getElementById('promo-toggle').checked,
+                badge: document.getElementById('promo-badge-text').value.trim(),
+                title: document.getElementById('promo-title-text').value.trim(),
+                subtitle: document.getElementById('promo-sub-text').value.trim(),
+            };
+            btn.innerText = 'Uploading...';
+            const doSave = (img) => {
+                if (img) data.img = img;
+                window.dbSet(window.dbRef(window.firebaseDB, 'global_settings/promo_banner'), data)
+                    .then(() => { btn.innerHTML = '<i class="fas fa-check mr-1"></i> Published!'; setTimeout(()=>btn.innerHTML='<i class="fas fa-upload mr-1"></i> Publish Banner', 2500); })
+                    .catch(() => { alert('Save failed!'); btn.innerHTML='<i class="fas fa-upload mr-1"></i> Publish Banner'; });
+            };
+            if (file) {
+                const r = new FileReader();
+                r.onload = () => {
+                    const thumb = document.getElementById('promo-preview-thumb');
+                    const thumbImg = document.getElementById('promo-thumb-img');
+                    if (thumb && thumbImg) { thumbImg.src = r.result; thumb.classList.remove('hidden'); }
+                    doSave(r.result);
+                };
+                r.readAsDataURL(file);
+            } else {
+                doSave(null);
+            }
+        };
+
+        // Wire up promo file preview on select
+        document.addEventListener('DOMContentLoaded', () => {
+            const fi = document.getElementById('promo-img-file');
+            if (fi) fi.addEventListener('change', () => {
+                if (!fi.files[0]) return;
+                const r = new FileReader();
+                r.onload = () => {
+                    const thumb = document.getElementById('promo-preview-thumb');
+                    const thumbImg = document.getElementById('promo-thumb-img');
+                    if (thumb && thumbImg) { thumbImg.src = r.result; thumb.classList.remove('hidden'); }
+                };
+                r.readAsDataURL(fi.files[0]);
+            });
+        });
         window.openProfile = () => { const d = JSON.parse(localStorage.getItem('zenvy_user_profile')) || {}; document.getElementById('u-name').value = d.name || ""; document.getElementById('u-phone').value = d.phone || ""; document.getElementById('u-addr').value = d.addr || ""; if(d.img) { document.getElementById('u-preview-img').src = d.img; document.getElementById('u-preview-img').classList.remove('hidden'); document.getElementById('u-placeholder').classList.add('hidden'); } document.getElementById('profile-modal').classList.remove('hidden'); }
         window.closeProfile = () => document.getElementById('profile-modal').classList.add('hidden');
         window.previewUserImg = (e) => { const r = new FileReader(); r.onload = () => { document.getElementById('u-preview-img').src = r.result; document.getElementById('u-preview-img').classList.remove('hidden'); document.getElementById('u-placeholder').classList.add('hidden'); }; r.readAsDataURL(e.target.files[0]); }
