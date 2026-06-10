@@ -26,7 +26,7 @@
 </head>
 <body class="text-slate-900">
 
-    <!-- Announcement Bar (Firebase-controlled) -->
+    
     <div id="announce-bar" class="hidden w-full text-white text-[10px] font-bold uppercase tracking-[0.2em] py-2 px-4 flex items-center justify-between overflow-hidden relative z-[60]">
         <div class="flex-1 overflow-hidden">
             <div id="announce-scroll" class="flex items-center gap-10 w-max animate-marquee"></div>
@@ -39,8 +39,7 @@
         .animate-marquee:hover { animation-play-state: paused; }
     </style>
 
-
-    <!-- Firebase System (Integrated) -->
+    
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getDatabase, ref, push, set, onValue, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
@@ -70,7 +69,7 @@
         setTimeout(() => { initZenvy(); }, 500);
     </script>
 
-    <!-- Navbar -->
+    
     <nav class="glass-nav sticky top-0 z-50 py-2.5 px-4 flex justify-between items-center shadow-sm">
         <div class="flex items-center gap-2">
             <div class="w-10 h-10 rounded-xl bg-black flex items-center justify-center border border-sky-400 shadow-lg shrink-0">
@@ -100,10 +99,10 @@
             </div>
         </header>
 
-        <!-- Promo Poster Banner (Firebase-controlled) -->
-        <div id="promo-banner" class="hidden w-full relative overflow-hidden cursor-pointer" onclick="document.getElementById('promo-banner').style.opacity='0.7'">
-            <div id="promo-img-wrap" class="w-full max-h-[420px] overflow-hidden flex items-center justify-center bg-black">
-                <img id="promo-img" src="" alt="Promotion" class="w-full object-cover max-h-[420px]">
+        
+        <div id="promo-banner" class="hidden w-full relative overflow-hidden cursor-pointer shadow-xl" onclick="document.getElementById('promo-banner').style.opacity='0.7'">
+            <div id="promo-img-wrap" class="w-full max-h-[220px] overflow-hidden flex items-center justify-center bg-black">
+                <img id="promo-img" src="" alt="Promotion" class="w-full object-cover max-h-[220px]">
             </div>
             <div id="promo-overlay" class="absolute inset-0 flex flex-col items-center justify-center bg-black/30 pointer-events-none">
                 <span id="promo-badge" class="hidden px-4 py-1 rounded-full bg-sky-500 text-white text-[9px] font-black uppercase tracking-[3px] mb-3 shadow-lg"></span>
@@ -128,7 +127,7 @@
         </div>
 
         <main class="container mx-auto px-3 py-10 min-h-[400px]">
-            <!-- Loader -->
+            
             <div id="loading-spinner" class="flex flex-col items-center justify-center py-20">
                 <div class="loader mb-4"></div>
                 <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Loading ZENVY Collection...</p>
@@ -142,7 +141,7 @@
         </footer>
     </div>
 
-    <!-- Product Details Modal -->
+    
     <div id="details-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden z-[120] flex items-center justify-center p-4">
         <div class="bg-white w-full max-w-lg rounded-[30px] overflow-hidden shadow-2xl relative">
             <button onclick="closeDetails()" class="absolute top-4 right-4 w-10 h-10 bg-black/5 rounded-full flex items-center justify-center text-xl">&times;</button>
@@ -150,7 +149,7 @@
         </div>
     </div>
 
-    <!-- Cart Drawer -->
+    
     <div id="cart-drawer" class="fixed inset-0 z-[100] hidden">
         <div onclick="toggleCart(false)" class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
         <div class="absolute right-0 top-0 h-full w-full max-w-[320px] bg-white shadow-2xl flex flex-col translate-x-full cart-drawer" id="cart-panel">
@@ -163,7 +162,7 @@
         </div>
     </div>
 
-    <!-- Order Modal -->
+    
     <div id="order-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden z-[150] flex items-end sm:items-center justify-center p-0 sm:p-4">
         <div class="bg-white w-full max-w-md rounded-t-[35px] sm:rounded-[24px] p-7 shadow-2xl overflow-y-auto max-h-[90vh]">
             <button onclick="closeModal()" class="float-right text-slate-300 text-2xl hover:text-red-500">&times;</button>
@@ -178,7 +177,7 @@
         </div>
     </div>
 
-    <!-- Admin Panel Dashboard (Same logic, better handling) -->
+    
     <div id="admin-login-modal" class="fixed inset-0 bg-slate-900/95 hidden z-[300] flex items-center justify-center p-4">
         <div class="bg-white w-full max-w-sm rounded-[30px] p-10 shadow-2xl text-center">
             <h2 class="text-lg font-bold mb-6 uppercase text-slate-800 italic underline decoration-sky-500">Console</h2>
@@ -191,7 +190,7 @@
         <div class="glass-nav p-4 flex justify-between items-center"><h2 class="text-[10px] font-bold uppercase text-sky-600">Dashboard</h2><button onclick="exitDashboard()" class="bg-red-500 text-white px-4 py-1.5 rounded-lg text-[9px] font-bold uppercase">Exit</button></div>
         <div class="container mx-auto px-3 py-6 max-w-4xl space-y-6">
 
-            <!-- Announcement Settings Card -->
+            
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-sky-100">
                 <div class="flex items-center justify-between mb-4">
                     <h3 class="text-[10px] font-bold text-sky-600 uppercase tracking-widest flex items-center gap-2"><i class="fas fa-bullhorn"></i> Announcement Bar</h3>
@@ -222,7 +221,7 @@
                 </button>
             </div>
 
-            <!-- Promo Poster Card -->
+            
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-purple-100">
                 <div class="flex items-center justify-between mb-4">
                     <h3 class="text-[10px] font-bold text-purple-600 uppercase tracking-widest flex items-center gap-2"><i class="fas fa-image"></i> Promo Poster / Sale Banner</h3>
@@ -243,8 +242,8 @@
                 <div class="mb-4">
                     <label class="block text-[9px] font-bold text-slate-400 uppercase mb-2">Upload Poster Image</label>
                     <input type="file" id="promo-img-file" accept="image/*" class="w-full p-3 bg-slate-50 border rounded-xl text-[9px]">
-                    <div id="promo-preview-thumb" class="hidden mt-3 rounded-xl overflow-hidden border border-purple-200 max-h-40">
-                        <img id="promo-thumb-img" src="" class="w-full object-cover max-h-40">
+                    <div id="promo-preview-thumb" class="hidden mt-2 rounded-xl overflow-hidden border border-purple-200 max-h-28">
+                        <img id="promo-thumb-img" src="" class="w-full object-cover max-h-28">
                     </div>
                 </div>
                 <button onclick="savePromoBanner()" id="promo-save-btn" class="bg-purple-500 hover:bg-purple-600 text-white px-6 py-2.5 rounded-xl font-bold text-[10px] uppercase transition shadow-sm">
@@ -252,7 +251,7 @@
                 </button>
             </div>
 
-            <!-- Product Form + List -->
+            
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div class="bg-white p-6 rounded-2xl shadow-sm h-fit">
                 <h3 id="admin-form-title" class="text-[10px] font-bold text-slate-400 uppercase mb-4 tracking-widest">Add Product</h3>
@@ -267,11 +266,11 @@
             <div class="md:col-span-2 bg-white p-6 rounded-2xl shadow-sm">
                 <div id="admin-product-list" class="space-y-2"></div>
             </div>
-            </div><!-- end product grid -->
-        </div><!-- end container -->
-    </div><!-- end admin-dashboard-view -->
+            </div>
+        </div>
+    </div>
 
-    <!-- Profile Modal -->
+    
     <div id="profile-modal" class="fixed inset-0 bg-black/60 hidden z-[250] flex items-center justify-center p-4">
         <div class="bg-white w-full max-w-sm rounded-[30px] p-8 shadow-2xl relative text-center">
             <button onclick="closeProfile()" class="absolute top-5 right-5 text-xl text-slate-300">&times;</button>
@@ -288,7 +287,7 @@
         </div>
     </div>
 
-    <!-- WhatsApp Support Bubble -->
+    
     <a href="https://wa.me/8801963792670" class="fixed bottom-6 left-6 bg-[#25D366] w-12 h-12 rounded-full flex items-center justify-center text-white text-2xl shadow-xl z-50 active:scale-95 transition hover:scale-110"><i class="fab fa-whatsapp"></i></a>
 
     <script>
