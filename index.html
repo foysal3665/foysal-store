@@ -304,7 +304,22 @@
                 </button>
             </div>
 
-            
+            <!-- Coupon Code Card -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-green-100">
+                <h3 class="text-[10px] font-bold text-green-600 uppercase tracking-widest flex items-center gap-2 mb-4"><i class="fas fa-ticket-alt"></i> Coupon Code</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
+                    <input type="text" id="coupon-code-input" placeholder="Code (e.g. ZENVY20)" class="uppercase p-3 bg-slate-50 border rounded-xl text-[11px] font-black tracking-widest focus:outline-none focus:ring-1 ring-green-400">
+                    <input type="number" id="coupon-discount-input" placeholder="Discount %" min="1" max="99" class="p-3 bg-slate-50 border rounded-xl text-[11px] focus:outline-none focus:ring-1 ring-green-400">
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <span class="text-[9px] font-bold text-slate-400 uppercase">Active</span>
+                        <div class="relative"><input type="checkbox" id="coupon-active" class="sr-only peer"><div class="w-10 h-5 bg-slate-200 rounded-full peer-checked:bg-green-500 transition"></div><div class="absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow transition peer-checked:translate-x-5"></div></div>
+                    </label>
+                </div>
+                <button onclick="saveCoupon()" id="coupon-save-btn" class="bg-green-500 hover:bg-green-600 text-white px-6 py-2.5 rounded-xl font-bold text-[10px] uppercase transition shadow-sm">
+                    <i class="fas fa-save mr-1"></i> Save Coupon
+                </button>
+            </div>
+
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div class="bg-white p-6 rounded-2xl shadow-sm h-fit">
                 <h3 id="admin-form-title" class="text-[10px] font-bold text-slate-400 uppercase mb-4 tracking-widest">Add Product</h3>
