@@ -356,7 +356,7 @@
     </div>
 
     
-    <a href="https://wa.me/8801963792670" class="fixed bottom-20 left-4 md:bottom-6 md:left-6 bg-[#25D366] w-11 h-11 md:w-12 md:h-12 rounded-full flex items-center justify-center text-white text-xl md:text-2xl shadow-xl z-50 active:scale-95 transition hover:scale-110"><i class="fab fa-whatsapp"></i></a>
+    <a href="https://wa.me/8801963792670" class="fixed bottom-24 left-4 md:bottom-6 md:left-6 bg-[#25D366] w-11 h-11 md:w-12 md:h-12 rounded-full flex items-center justify-center text-white text-xl md:text-2xl shadow-xl z-[100] active:scale-95 transition hover:scale-110"><i class="fab fa-whatsapp"></i></a>
 
     <!-- Bottom Navigation Bar (Mobile) -->
     <nav id="bottom-nav" class="bottom-nav fixed bottom-0 left-0 right-0 z-[90] flex md:hidden">
@@ -371,7 +371,7 @@
             <span id="bnav-cart-badge" class="bnav-badge hidden">0</span>
             <span>Bag</span>
         </button>
-        <button class="bnav-btn" onclick="openProfile()">
+        <button class="bnav-btn" onclick="if(window.openProfile)window.openProfile();else document.getElementById('profile-modal').classList.remove('hidden')">
             <i class="fas fa-user"></i><span>Profile</span>
         </button>
     </nav>
@@ -773,7 +773,21 @@
                 r.readAsDataURL(fi.files[0]);
             });
         });
-        window.openProfile = () => { const d = JSON.parse(localStorage.getItem('zenvy_user_profile')) || {}; document.getElementById('u-name').value = d.name || ""; document.getElementById('u-phone').value = d.phone || ""; document.getElementById('u-addr').value = d.addr || ""; if(d.img) { document.getElementById('u-preview-img').src = d.img; document.getElementById('u-preview-img').classList.remove('hidden'); document.getElementById('u-placeholder').classList.add('hidden'); } document.getElementById('profile-modal').classList.remove('hidden'); }
+        window.openProfile = () => {
+            try {
+                const d = JSON.parse(localStorage.getItem('zenvy_user_profile') || '{}');
+                const set = (id, val) => { const el = document.getElementById(id); if(el) el.value = val || ''; };
+                set('u-name', d.name); set('u-phone', d.phone); set('u-addr', d.addr);
+                if (d.img && d.img.startsWith('data:')) {
+                    const pi = document.getElementById('u-preview-img');
+                    const ph = document.getElementById('u-placeholder');
+                    if (pi) { pi.src = d.img; pi.classList.remove('hidden'); }
+                    if (ph) ph.classList.add('hidden');
+                }
+                const modal = document.getElementById('profile-modal');
+                if (modal) modal.classList.remove('hidden');
+            } catch(e) { console.warn('openProfile error:', e); }
+        };
         window.closeProfile = () => document.getElementById('profile-modal').classList.add('hidden');
         window.previewUserImg = (e) => { const r = new FileReader(); r.onload = () => { document.getElementById('u-preview-img').src = r.result; document.getElementById('u-preview-img').classList.remove('hidden'); document.getElementById('u-placeholder').classList.add('hidden'); }; r.readAsDataURL(e.target.files[0]); }
         window.saveUserProfile = () => { const o = { name: document.getElementById('u-name').value, phone: document.getElementById('u-phone').value, addr: document.getElementById('u-addr').value, img: document.getElementById('u-preview-img').src }; localStorage.setItem('zenvy_user_profile', JSON.stringify(o)); updateProfileUI(); alert("Identity Saved!"); closeProfile(); }
